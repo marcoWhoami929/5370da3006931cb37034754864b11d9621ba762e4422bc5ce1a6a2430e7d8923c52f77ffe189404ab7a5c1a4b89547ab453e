@@ -149,9 +149,9 @@ class ControladorGeneral{
 	/**
 	 * MOSTRAR LISTA EVENTOS
 	 */
-	static public function ctrMostrarListaEventos(){
+	static public function ctrMostrarListaEventos($agente){
 
-		$respuesta = ModeloGeneral::mdlMostrarListaEventos();
+		$respuesta = ModeloGeneral::mdlMostrarListaEventos($agente);
 
 		return $respuesta;
 	}
@@ -256,6 +256,15 @@ class ControladorGeneral{
 
 		return $respuesta;
 
+	}
+	/** CAMBIOS 18/09/2020*/
+	static public function ctrShowViews($table){
+		
+		$tabla = $table;
+
+		$respuesta = ModeloGeneral::mdlShowViews($tabla);
+
+		return $respuesta;
 	}
 	
 }

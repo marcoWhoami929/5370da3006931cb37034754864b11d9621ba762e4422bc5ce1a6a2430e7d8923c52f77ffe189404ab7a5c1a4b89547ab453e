@@ -223,3 +223,32 @@
    height: 400px;
 
 }
+/***
+ESTILOS TABLAS
+***/
+.views {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.views td, .views th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.views tr:hover {background-color: #ddd;}
+
+.views th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+.views td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+
+.selected {
+    background-color: #4CAF50;
+    color: #FFF;
+}

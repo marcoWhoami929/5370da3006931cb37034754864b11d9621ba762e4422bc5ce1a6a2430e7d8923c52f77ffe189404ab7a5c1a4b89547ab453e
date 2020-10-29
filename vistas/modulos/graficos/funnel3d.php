@@ -42,7 +42,8 @@
         data: [
             ['Prospectos', 
             <?php 
-                                                   
+                       
+                 if ($agente == null) {                            
 
                  $table = "prospectos";
                  $campos = "COUNT(id)";
@@ -51,26 +52,69 @@
 
                  echo $indicadores["total"];
 
+                }else{
+
+                 $table = "prospectos";
+                 $campos = "COUNT(id)";
+                 $parametros = "WHERE oportunidad = 0 and cliente = 0 and descartado = 0 and idAgente = $agente";
+                 $indicadores = ControladorGeneral::ctrObtenerIndicadores($table,$campos,$parametros);
+
+                 echo $indicadores["total"];
+
+                }
                                            
 
              ?>],
             ['Oportunidades', 
             <?php 
+
+                if ($agente == null) {
+
                  $table = "prospectos";
                  $campos = "COUNT(p.id)";
                  $parametros = "as p INNER JOIN ventas as v ON v.idOportunidad = p.id WHERE oportunidad = 1 and descartado = 0  and habilitado = 1";
                  $indicadores = ControladorGeneral::ctrObtenerIndicadores($table,$campos,$parametros);
 
                  echo $indicadores["total"];
+
+                }else{
+
+                 $table = "prospectos";
+                 $campos = "COUNT(p.id)";
+                 $parametros = "as p INNER JOIN ventas as v ON v.idOportunidad = p.id WHERE oportunidad = 1 and descartado = 0  and habilitado = 1 and idAgente = $agente";
+                 $indicadores = ControladorGeneral::ctrObtenerIndicadores($table,$campos,$parametros);
+
+                 echo $indicadores["total"];
+
+
+                }
+                 
              ?>],
+                
             ['Clientes', 
             <?php 
+
+                if ($agente == null) {
+
                  $table = "prospectos";
                  $campos = "COUNT(id)";
                  $parametros = "WHERE cliente = 1 and descartado != 1";
                  $indicadores = ControladorGeneral::ctrObtenerIndicadores($table,$campos,$parametros);
 
                  echo $indicadores["total"];
+
+
+                }else{
+
+                 $table = "prospectos";
+                 $campos = "COUNT(id)";
+                 $parametros = "WHERE cliente = 1 and descartado != 1 and idAgente = $agente";
+                 $indicadores = ControladorGeneral::ctrObtenerIndicadores($table,$campos,$parametros);
+
+                 echo $indicadores["total"];
+
+                }
+                 
 
              ?>]
         ]

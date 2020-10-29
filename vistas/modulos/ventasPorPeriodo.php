@@ -54,6 +54,7 @@
                              <th style="border:none">#</th>
                              <th style="border:none">Nombre / Taller</th>
                              <th style="border:none">Concepto</th>
+                              <th style="border:none">Serie / Folio</th>
                              <th style="border:none">Fecha</th>
                              <th style="border:none">Observaciones</th>
                              <th style="border:none">Total</th>

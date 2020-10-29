@@ -36,6 +36,7 @@ class TablaVentas{
 				      "'.($ventas[$i]["idVenta"]).'",
 				      "<strong>'.$ventas[$i]["nombreCompleto"].'</strong><br><em>'.$ventas[$i]["taller"].'</em>",
 				      "<strong>'.$ventas[$i]["concepto"].'</strong>",
+				       "<strong>'.$ventas[$i]["serie"].'</strong><em>'.$ventas[$i]["folio"].'</em>",
 				      "'.$ventas[$i]["fechaVenta"].'",
 				      "'.$ventas[$i]["observaciones"].'",
 				      "<strong> $ '.number_format($ventas[$i]["montoTotal"],2).'</strong>",

@@ -2,8 +2,31 @@
    error_reporting(E_ALL);
     require_once("controladores/crm.php");
     require_once("modelos/crm.php");
-    
-    $eventos = ControladorGeneral::ctrMostrarListaEventos();
+
+
+    $url =  'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+                $parametros = parse_url($url);
+               
+
+                if (isset($parametros['query'])) {
+                     parse_str($parametros['query'], $parametro);
+                     $idAgente = $parametro['elegirAgente'];
+                     if ($idAgente == 0) {
+                         $agente = null;
+                         $valor = 0;
+                     }else{
+                         $agente =  $idAgente;
+                         $valor = $idAgente;
+                     }
+                    
+                }else{
+                     $valor = 0;
+                     $agente = null;
+                    
+                }
+                         
+    $eventos = ControladorGeneral::ctrMostrarListaEventos($agente);
     ?>
 <div class="preloader">
 	<div class="lds-ripple">
@@ -25,7 +48,31 @@
 							</ol>
 						</nav>
 					</div>
+                   
 				</div>
+                 <div class="col-6">
+                    <input type="hidden" id="valorElegido" value="<?php echo $valor ?>">
+                    <form action="calendario" method="GET" >
+                         <select class="form-control" id="elegirAgente" name="elegirAgente">
+                           
+                            <option value="0">Todos los Agentes</option>
+                            <option value="1">Rocio Martinez Morales</option>
+                            <option value="2">Orlando Raúl Briones Aguirre</option>
+                            <option value="3">Gerónimo Bautista Escudero</option>
+                            <option value="4">Jonathan González Sánchez</option>
+                            <option value="5">San Manuel</option>
+                            <option value="6">Reforma</option>
+                            <option value="7">Capu</option>
+                            <option value="8">Santiago</option>
+                            <option value="9">Las Torres</option>
+                            <option value="10">Aurora Fernández</option>
+                        </select>
+                        <br>
+                        <input type="submit"  class="btn btn-success" value="BUSCAR">
+                    </form>
+                       
+                </div>
+
 			</div>
 		</div>
 		<div class="container-fluid">
@@ -242,4 +289,8 @@
         
     });
 
+</script>
+<script>
+    var elemento =  $("#valorElegido").val();
+    document.ready = document.getElementById("elegirAgente").value = elemento;
 </script>

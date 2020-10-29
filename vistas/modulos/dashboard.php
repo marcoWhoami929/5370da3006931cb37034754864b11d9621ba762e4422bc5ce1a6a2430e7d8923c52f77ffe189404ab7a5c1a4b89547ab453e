@@ -3,6 +3,28 @@
     require_once("controladores/crm.php");
     require_once("modelos/crm.php");
 
+     $url =  'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+                $parametros = parse_url($url);
+               
+
+                if (isset($parametros['query'])) {
+                     parse_str($parametros['query'], $parametro);
+                     $idAgente = $parametro['agente'];
+                     if ($idAgente == 0) {
+                         $agente = null;
+                         $valor = 0;
+                     }else{
+                         $agente =  $idAgente;
+                         $valor = $idAgente;
+                     }
+                    
+                }else{
+                     $valor = 0;
+                     $agente = null;
+                    
+                }
+
 ?>
 <div class="preloader">
     <div class="lds-ripple">
@@ -90,9 +112,9 @@
                                                 <?php 
                                                     
 
-                                                    $table = "oportunidades";
-                                                    $campos = "COUNT(prosp.id)";
-                                                    $parametros = "as opor INNER JOIN prospectos as prosp ON opor.idProspecto = prosp.id WHERE prosp.descartado = 0 and prosp.cliente != 1  and prosp.oportunidadesCreadas != 0 and opor.ventaCerrada = 0";
+                                                    $table = "prospectos";
+                                                    $campos = "COUNT(p.id)";
+                                                    $parametros = "as p INNER JOIN ventas as v ON v.idOportunidad = p.id WHERE oportunidad = 1 and descartado = 0  and habilitado = 1";
                                                     $indicadores = ControladorGeneral::ctrObtenerIndicadores($table,$campos,$parametros);
 
                                                     echo $indicadores["total"];
@@ -207,13 +229,47 @@
             </div>
 
             <div class="row">
-
+                  <div class="col-12 col-md-12 col-sm-12">
+                    <span>Elegir Agente</span>
+                    
+                    <input type="hidden" id="agenteSeleccionado" value="<?php echo $valor ?>">
+                    <form action="dashboard" method="GET" >
+                     
+                         <select class="form-control" id="agente" name="agente" onchange="this.form.submit()">
+                           
+                            <option value="0">Todos los Agentes</option>
+                            <option value="1">Rocio Martinez Morales</option>
+                            <option value="2">Orlando Raúl Briones Aguirre</option>
+                            <option value="3">Gerónimo Bautista Escudero</option>
+                            <option value="4">Jonathan González Sánchez</option>
+                            <option value="5">San Manuel</option>
+                            <option value="6">Reforma</option>
+                            <option value="7">Capu</option>
+                            <option value="8">Santiago</option>
+                            <option value="9">Las Torres</option>
+                          
+                        </select>
+                    
+                       
+                    </form>
+                       
+                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <?php include("vistas/modulos/graficos/graficoFunel3D.php") ?>
                 </div>
-
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <?php include("vistas/modulos/graficos/graficoFunnel.php") ?>
+                </div>
+            
             </div>
 
         </div> 
     </div>
 </div>
+<script>
+
+
+    var agenteElegido =  $("#agenteSeleccionado").val();
+    document.ready = document.getElementById("agente").value = agenteElegido;
+    localStorage.setItem("agente",agenteElegido);
+</script>

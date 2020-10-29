@@ -66,7 +66,7 @@ class ModeloGeneral{
 	
 	static public function mdlMostrarVentas($tabla){
 
-		$stmt = Conexion::conectar()->prepare("SELECT vt.id idVenta ,p.nombreCompleto,p.taller,vt.concepto,vt.fechaVenta,vt.observaciones,vt.montoTotal,vt.cerradoDia,av.nombre as agente,vt.estatusVenta,o.id as idOportunidadVenta,o.productos FROM ventas as vt INNER JOIN agentesventas as av ON vt.idAgente = av.id INNER JOIN prospectos as p ON vt.idOportunidad = p.id INNER JOIN oportunidades as o ON vt.idOportunidadVenta = o.id");
+		$stmt = Conexion::conectar()->prepare("SELECT vt.id idVenta ,p.nombreCompleto,p.taller,vt.concepto,vt.fechaVenta,vt.observaciones,vt.montoTotal,vt.cerradoDia,av.nombre as agente,vt.estatusVenta,o.id as idOportunidadVenta,o.productos,vt.serie,vt.folio FROM ventas as vt INNER JOIN agentesventas as av ON vt.idAgente = av.id INNER JOIN prospectos as p ON vt.idOportunidad = p.id INNER JOIN oportunidades as o ON vt.idOportunidadVenta = o.id");
 
 		$stmt -> execute();
 
@@ -231,9 +231,11 @@ class ModeloGeneral{
 	 * MOSTRAR LISTA DE EVENTOS
 	 */
 	
-	static public function mdlMostrarListaEventos(){
+	static public function mdlMostrarListaEventos($agente){
 
-		$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id ");
+		if ($agente == null) {
+
+			$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id ");
 
 		$stmt -> execute();
 
@@ -242,6 +244,23 @@ class ModeloGeneral{
 		$stmt-> close();
 
 		$stmt = null;
+			
+		}else{
+
+			$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id WHERE citas.idAgente = $agente UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id WHERE llamada.idAgente = $agente   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id WHERE visitas.idAgente = $agente  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id WHERE record.idAgente = $agente    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id WHERE demo.idAgente = $agente");
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt-> close();
+
+		$stmt = null;
+
+
+
+		}
+
 
 	}
 
@@ -436,5 +455,16 @@ class ModeloGeneral{
 		$stmt = null;
 
 	}
+
+	/** CAMBIOS 18/09/2020*/
+	static public function mdlShowViews($tabla){
+
+		$stmt = Conexion::conectar()->prepare("SHOW COLUMNS FROM $tabla FROM crmapp");
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+	}
+
 
 }

@@ -80,7 +80,7 @@
                                <tr>
                                  <th style="border:none">Clasificacion</th>
                                  <th style="border:none">Monto</th>
-                                 <th style="border:none">Comisión</th>
+                                 <th style="border:none">cantidad</th>
                                  <th style="border:none">Certeza</th>
 
                                 </tr> 
@@ -91,10 +91,11 @@
                                     <td>BAJA</td>
                                     <td>
                                         <?php
-
+                                            require_once("controladores/crm.php");
+                                            require_once("modelos/crm.php");
 
                                             $table = "oportunidades";
-                                            $campos = "IF(SUM(O.monto) IS NULL,0,SUM(O.monto)) as total";
+                                            $campos = "IF(SUM(o.monto) IS NULL,0,SUM(o.monto)) as total";
                                             $parametros =  "as o INNER JOIN prospectos AS p ON o.idProspecto = p.id  WHERE o.idCerteza < 4 and p.descartado = 0 and p.cliente != 1 and p.oportunidadesCreadas != 0 and o.ventaCerrada = 0";
 
                                            
@@ -107,12 +108,12 @@
                                           
 
                                             $table = "oportunidades";
-                                            $campos = "IF(SUM(o.comision) IS NULL,0,SUM(o.comision)) as total";
+                                            $campos = "IF(COUNT(o.comision) IS NULL,0,COUNT(o.comision)) as total";
                                             $parametros = "as o INNER JOIN prospectos AS p ON o.idProspecto = p.id  WHERE o.idCerteza < 4 and p.descartado = 0 and p.cliente != 1 and p.oportunidadesCreadas != 0 and o.ventaCerrada = 0";
 
                                            
                                             $totalCerteza = ControladorGeneral::ctrObtenerTotalCertezas($table,$campos,$parametros);
-                                            echo "$ ".number_format($totalCerteza["total"],2);
+                                            echo $totalCerteza["total"];
                                         ?>
                                     </td>
                                     <td>
@@ -147,11 +148,11 @@
                                           
 
                                             $table = "oportunidades";
-                                            $campos = "IF(SUM(o.comision) IS NULL,0,SUM(o.comision)) as total";
+                                            $campos = "IF(COUNT(o.comision) IS NULL,0,COUNT(o.comision)) as total";
                                             $parametros =  "as o INNER JOIN prospectos AS p ON o.idProspecto = p.id  WHERE o.idCerteza < 7 and o.idCerteza >= 4 and p.descartado = 0 and p.cliente != 1 and p.oportunidadesCreadas != 0 and o.ventaCerrada = 0";
                                            
                                             $totalCerteza = ControladorGeneral::ctrObtenerTotalCertezas($table,$campos,$parametros);
-                                            echo "$ ".number_format($totalCerteza["total"],2);
+                                            echo $totalCerteza["total"];
                                         ?>
                                     </td>
                                     <td>
@@ -187,11 +188,11 @@
                                           
 
                                             $table = "oportunidades";
-                                            $campos = "IF(SUM(o.comision) IS NULL,0,SUM(o.comision)) as total";
+                                            $campos = "IF(COUNT(o.comision) IS NULL,0,COUNT(o.comision)) as total";
                                             $parametros = "as o INNER JOIN prospectos AS p ON o.idProspecto = p.id  WHERE o.idCerteza >= 7 and p.descartado = 0 and p.cliente != 1 and p.oportunidadesCreadas != 0 and o.ventaCerrada = 0";
                                            
                                             $totalCerteza = ControladorGeneral::ctrObtenerTotalCertezas($table,$campos,$parametros);
-                                            echo "$ ".number_format($totalCerteza["total"],2);
+                                            echo $totalCerteza["total"];
                                         ?>
                                     </td>
                                     <td>
@@ -226,11 +227,11 @@
                                           
 
                                             $table = "oportunidades";
-                                            $campos = "IF(SUM(o.comision) IS NULL,0,SUM(o.comision)) as total";
+                                            $campos = "IF(COUNT(o.comision) IS NULL,0,COUNT(o.comision)) as total";
                                             $parametros = "as o INNER JOIN prospectos AS p ON o.idProspecto = p.id  WHERE p.descartado = 0 and p.cliente != 1 and p.oportunidadesCreadas != 0 and o.ventaCerrada = 0";
                                            
                                             $totalCerteza = ControladorGeneral::ctrObtenerTotalCertezas($table,$campos,$parametros);
-                                             echo "<strong>$ ".number_format($totalCerteza["total"],2)."</strong>";
+                                             echo "<strong>".$totalCerteza["total"]."</strong>";
                                         ?>
                                     </td>
                                     <td>

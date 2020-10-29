@@ -905,6 +905,36 @@ $("#buscarTimeline").change(function() {
 
            const date = new Date(año, mes-1, dia); 
            const month = date.toLocaleString('es-MX', { month: 'long' });
+           /*CAMBIO REALILZADO*/
+           var fechaAlta = moment('2020-07-24 09:00:00',"YYYY-MM-DD HH:mm:ss");
+           var fechaSeguimiento = moment(json[i]["fecha"],"YYYY-MM-DD HH:mm:ss");
+
+           /*
+           var diferencia = moment.duration(moment(fechaAlta.diff(fechaSeguimiento)));
+
+           var dias =  fechaSeguimiento.diff(fechaAlta, 'd');
+
+            var horas = fechaSeguimiento.diff(fechaAlta, 'h');
+
+            horas = horas - dias*24; 
+
+            var minutos = fechaSeguimiento.diff(fechaAlta, 'm'); 
+
+            minutos = minutos - (dias*24*60 + horas*60); 
+
+            var segundos = fechaSeguimiento.diff(fechaAlta, 's');
+
+            segundos = segundos - (dias*24*60 + horas*60 + minutos*60);
+
+
+            console.log(dias+" dias"+ horas+ " horas"+ minutos+" minutos"+" y "+segundos+" segundos");
+            */
+          
+           var ms = moment(fechaSeguimiento,"DD/MM/YYYY HH:mm:ss").diff(moment(fechaAlta,"DD/MM/YYYY HH:mm:ss"));
+           var d = moment.duration(ms);
+
+           var tiempoTranscurrido = d.days()+" dias"+  d.hours()+ " horas "+ d.minutes()+" minutos"+" y "+d.seconds()+" segundos";
+
 
            var seguimiento = `<div class="timeline-article">
                                             <div class="content-`+clase+`-container">
@@ -912,6 +942,7 @@ $("#buscarTimeline").change(function() {
                                                 <p>`+json[i]["titulo"]+`<span class="article-number">`+acum+`</span></p>
                                               </div>
                                               <span class="timeline-author">`+json[i]["fecha"]+`</span>
+                                              <span class="timeline-author" style="font-weigth:bold">`+tiempoTranscurrido+`</span>
                                             </div>
                                             
                                             <div class="meta-date">

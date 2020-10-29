@@ -29,9 +29,9 @@ class TablaOportunidades{
 
 			if (str_replace('%','',$oportunidades[$i]["porcentaje"]) <= 39) {
 				$indicador =  "<button type='button' class='btn btn-danger btn-sm'></button>";
-			}else if(str_replace('%','',$oportunidades[$i]["porcentaje"]) >= 40 || str_replace('%','',$oportunidades[$i]["porcentaje"]) <= 69){
+			}else if(str_replace('%','',$oportunidades[$i]["porcentaje"]) >= 40 and str_replace('%','',$oportunidades[$i]["porcentaje"]) <= 69){
 				$indicador =  "<button type='button' class='btn btn-warning btn-sm'></button>";
-			}else{
+			}else if(str_replace('%','',$oportunidades[$i]["porcentaje"]) >= 70){
 				$indicador =  "<button type='button' class='btn btn-success btn-sm'></button>";
 			}
 
