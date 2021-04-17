@@ -36,6 +36,9 @@
                                 <div>
                                     <h4 class="card-title">Descartados</h4>
                                     <h5 class="card-subtitle"></h5>
+                                    <a href="vistas/modulos/reportes.php?descartados=prospectos" ><button type="button" class="btn btn-success">
+                                        <i class="fas fa-file-excel fa-2x"></i></button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

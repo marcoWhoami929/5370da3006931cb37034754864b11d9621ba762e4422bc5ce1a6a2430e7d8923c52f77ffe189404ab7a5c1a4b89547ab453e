@@ -27,7 +27,7 @@ error_reporting(0);
   <link href="vistas/dist/css/all.min.css" rel="stylesheet">  
   <link href="vistas/assets/libs/flot/css/float-chart.css" rel="stylesheet">
   <link href="vistas/dist/css/formeter.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="vistas/dist/css/generales.css">
   <link href="vistas/dist/css/bootstrap-tagsinput.css" rel="stylesheet">
 
@@ -71,7 +71,7 @@ error_reporting(0);
     <script src="vistas/dist/js/all.min.js"></script>
     <script src="vistas/dist/js/formeter.js"></script>
      <script src="vistas/dist/js/bootstrap-tagsinput.js"></script>
-    <script src="http://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/df-number-format/2.1.6/jquery.number.js"></script>
   
 
@@ -160,6 +160,7 @@ JS PERSONALIZADO
   <script src="vistas/assets/libs/moment/min/moment.min.js"></script>
   <script src="vistas/assets/libs/fullcalendar/dist/fullcalendar.min.js"></script>
   <script src="vistas/dist/js/pages/calendar/cal-init.js"></script>
+
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_dlGznsov-uJDQUmmsHIR_vsA103iiLc"></script>
 
   </div>

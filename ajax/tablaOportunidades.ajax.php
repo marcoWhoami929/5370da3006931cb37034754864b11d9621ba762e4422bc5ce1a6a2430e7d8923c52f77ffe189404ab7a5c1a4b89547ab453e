@@ -6,12 +6,27 @@ require_once "../modelos/crm.php";
 class TablaOportunidades{
 
 
-	public function mostrarTablas(){	
+	public function mostrarTablas(){
+		$idAgente = $_GET["idAgente"];
+        $fechaInicial = $_GET["fechaInicial"];
+        $fechaFinal = $_GET["fechaFin"];
 
- 		$oportunidades = ControladorGeneral::ctrMostrarOportunidades();
+        if ($idAgente != 0 && $fechaInicial != "" && $fechaFinal != "") {
+            $parametros = "WHERE av.id = ".$idAgente." AND o.fecha BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%' AND p.id = o.idProspecto and p.descartado = 0 " ;
+        }else if ($idAgente == 0 && $fechaInicial != "" && $fechaFinal != "") {
+            $parametros = "WHERE o.fecha BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%' AND p.id = o.idProspecto and p.descartado = 0";
+        }else if ($idAgente != 0) {
+            $parametros = "WHERE av.id = ".$idAgente;
+        }else{
+            $parametros = "WHERE p.id = o.idProspecto and p.descartado = 0";
+        }
+
+        $oportunidades = ControladorGeneral::ctrMostrarOportunidades($parametros);
+
+ 		
 
  		$datosJson = '{
-		 
+
 	 	"data": [ ';
 
 	 	for($i = 0; $i < count($oportunidades); $i++){
@@ -26,6 +41,7 @@ class TablaOportunidades{
 			}else{
 				$comision = $oportunidades[$i]["comision"];
 			}
+
 
 			if (str_replace('%','',$oportunidades[$i]["porcentaje"]) <= 39) {
 				$indicador =  "<button type='button' class='btn btn-danger btn-sm'></button>";
@@ -45,8 +61,8 @@ class TablaOportunidades{
 			}else{
 				$cierreEstimado = "<strong style='color:red'>".$oportunidades[$i]["cierreEstimado"]."</strong>";
 			}
-		
-		
+
+
 			$item = "idProspecto";
 	 		$valor = $oportunidades[$i]["idProspecto"];
 	 		$obtenerUltimoSeguimiento = ControladorGeneral::ctrMostrarSeguimientos($item,$valor);
@@ -57,7 +73,7 @@ class TablaOportunidades{
 			$fecha = new DateTime("now");
 			$fechaOperacion = new DateTime($obtenerUltimoSeguimiento["fecha"]);
 			$diferencia = $fechaOperacion -> diff($fecha);
-	
+
 			$transcurrido = ControladorGeneral::formatearFecha($diferencia);
 
 			if ($oportunidades[$i]["productos"] != "") {
@@ -69,9 +85,8 @@ class TablaOportunidades{
 			$datosJson	 .= '[
 				      "'.($i+1).'",
 				      "<strong>'.$oportunidades[$i]["nombre"].'</strong><br><em>'.$oportunidades[$i]["taller"].'</em>",
-				      "<strong>'.$oportunidades[$i]["correo"].'</strong><br><em>'.$oportunidades[$i]["telefono"].'</em>",
 				      "<strong>'.$oportunidades[$i]["concepto"].'</strong>",
-				      "<strong>'.$oportunidades[$i]["fase"].'</strong><br><em>'.$oportunidades[$i]["origen"].'</em>",
+				      "<strong>'.$oportunidades[$i]["fecha"].'</strong>",
 				      "<strong>$'.number_format($oportunidades[$i]["monto"],2).'</strong>",
 				      "<strong>$'.number_format($comision,2).'</strong>",
 				      "'.$oportunidades[$i]["porcentaje"].'<br>'.$indicador.'",
@@ -87,8 +102,8 @@ class TablaOportunidades{
 	 	$datosJson = substr($datosJson, 0, -1);
 
 		$datosJson.=  ']
-			  
-		}'; 
+
+		}';
 
 		echo $datosJson;
 

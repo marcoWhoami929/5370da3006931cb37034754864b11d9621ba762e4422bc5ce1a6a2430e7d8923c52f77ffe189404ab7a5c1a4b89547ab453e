@@ -35,6 +35,9 @@
                             <div class="d-md-flex align-items-center">
                                 <div>
                                     <h4 class="card-title">Pendientes</h4>
+                                    <a href="vistas/modulos/reportes.php?pendientes=citas" ><button type="button" class="btn btn-success">
+                                        <i class="fas fa-file-excel fa-2x"></i></button>
+                                    </a>
                                     <button type='button' class='btn btn-primary btn-sm'><i class='fa fa-calendar'></i></button> <strong>Citas</strong>
                                     <button type='button' class='btn btn-success btn-sm'><i class='fa fa-phone-volume'></i></button> <strong>Llamadas</strong>
                                     <button type='button' class='btn btn-danger btn-sm'><i class='fa fa-map-marked-alt'></i></button> <strong>Visitas</strong>

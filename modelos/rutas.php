@@ -8,7 +8,7 @@ class Ruta{
 
 	static public function ctrRuta(){
 
-		return "http://localhost/crmapp/";
+		return "https://sanfranciscodekkerlab.com/crm/";
 	
 	}
 
@@ -18,7 +18,7 @@ class Ruta{
 
 	static public function ctrRutaServidor(){
 
-		return "http://localhost/crmapp/";
+		return "https://sanfranciscodekkerlab.com/crm/";
 	
 	}
 

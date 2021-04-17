@@ -51,9 +51,9 @@ class TablaEventos{
 			$datosJson	 .= '[
 				      "'.$evento.'",
 				      "'.$eventos[$i]["id"].'",
-				      "'.$eventos[$i]["prospecto"].'",
-				      "'.$eventos[$i]["asunto"].'",
-				      "'.$eventos[$i]["descripcion"].'",
+				      "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $eventos[$i]["prospecto"]).'",
+				      "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $eventos[$i]["asunto"]).'",
+				      "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $eventos[$i]["descripcion"]).'",
 				      "'.$eventos[$i]["fecha"].'",
 				      "'.$eventos[$i]["hora"].'",
 				      "'.$estatus.'",

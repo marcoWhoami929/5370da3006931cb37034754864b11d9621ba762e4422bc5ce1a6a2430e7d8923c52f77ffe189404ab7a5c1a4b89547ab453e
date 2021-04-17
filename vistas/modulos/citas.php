@@ -34,7 +34,9 @@
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
                                 <div>
-                                    
+                                    <a href="vistas/modulos/reportes.php?pendientes=citas" ><button type="button" class="btn btn-success">
+                                        <i class="fas fa-file-excel fa-2x"></i></button>
+                                    </a>
                                     <i class='fa fa-flag-checkered fa-2x' style="color: red;"></i><strong>Pendiente Por Cerrar</strong>
                                     <i class='fa fa-flag-checkered fa-2x' style="color: green;"></i><strong>Cerrado</strong>
                                     
@@ -109,6 +111,7 @@
                    <div class="col-sm-12">
                        <input type="text" name="detalleInvitados" class="form-control" id="detalleInvitados" disabled>
                    </div>  
+                   <br>
                    <br>
 
                    <div class="col-lg-12 col-md-12 col-sm-12">

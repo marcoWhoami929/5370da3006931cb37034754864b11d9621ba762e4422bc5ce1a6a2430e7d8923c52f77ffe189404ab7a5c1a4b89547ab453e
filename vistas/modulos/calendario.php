@@ -2,8 +2,7 @@
    error_reporting(E_ALL);
     require_once("controladores/crm.php");
     require_once("modelos/crm.php");
-
-
+    
     $url =  'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
                 $parametros = parse_url($url);
@@ -48,31 +47,30 @@
 							</ol>
 						</nav>
 					</div>
-                   
 				</div>
-                 <div class="col-6">
-                    <input type="hidden" id="valorElegido" value="<?php echo $valor ?>">
-                    <form action="calendario" method="GET" >
-                         <select class="form-control" id="elegirAgente" name="elegirAgente">
+        <div class="col-6">
+          <input type="hidden" id="valorElegido" value="<?php echo $valor ?>">
+          <form action="calendario" method="GET" >
+                <select class="form-control" id="elegirAgente" name="elegirAgente" onchange="this.form.submit()">
                            
-                            <option value="0">Todos los Agentes</option>
-                            <option value="1">Rocio Martinez Morales</option>
-                            <option value="2">Orlando Raúl Briones Aguirre</option>
-                            <option value="3">Gerónimo Bautista Escudero</option>
-                            <option value="4">Jonathan González Sánchez</option>
-                            <option value="5">San Manuel</option>
-                            <option value="6">Reforma</option>
-                            <option value="7">Capu</option>
-                            <option value="8">Santiago</option>
-                            <option value="9">Las Torres</option>
-                            <option value="10">Aurora Fernández</option>
-                        </select>
-                        <br>
-                        <input type="submit"  class="btn btn-success" value="BUSCAR">
-                    </form>
+                  <option value="0">Todos los Agentes</option>
+                  <option value="1">Rocio Martinez Morales</option>
+                  <option value="2">Orlando Raúl Briones Aguirre</option>
+                  <option value="3">Gerónimo Bautista Escudero</option>
+                  <option value="4">Jonathan González Sánchez</option>
+                  <option value="5">San Manuel</option>
+                  <option value="6">Reforma</option>
+                  <option value="7">Capu</option>
+                  <option value="8">Santiago</option>
+                  <option value="9">Las Torres</option>
+                  <option value="11">Ivan Herrera</option>
+                  <option value="12">Jesús García</option>
+                  <option value="13">Mario Hernández</option>
+              </select>
+             
+          </form>
                        
-                </div>
-
+        </div>
 			</div>
 		</div>
 		<div class="container-fluid">
@@ -126,7 +124,7 @@
                             <div class="modal-header headColor" style="color: white">
                                 <h3 class="modal-title" id="exampleModalLabel">Detalle Evento</h3>
 
-                                <button type="button" class="close btnCerrarVista" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close btnCerrarVistas" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
@@ -136,7 +134,8 @@
                                   <div class="form-group">
                                     <label for="title" class="col-sm-2 control-label">Titulo</label>
                                     <div class="col-sm-12">
-                                      <input type="text" name="asunto" class="form-control" id="asunto" placeholder="Asunto" disabled>
+                                      <!--<input type="text" name="asunto" class="form-control" id="asunto" placeholder="Asunto" disabled>-->
+                                      <textarea class="form-control" name="asunto" id="asunto" rows="4" cols="50"></textarea>
                                     </div>
                                     <label for="title" class="col-sm-2 control-label">Contacto</label>
                                     <div class="col-sm-12">
@@ -160,6 +159,13 @@
                                         </div>
                                    
                                     </div>
+                                     <div class="col-sm-12" >
+                                            <div class="table-responsive">
+                                                  <table class="table" id="tablaDetalleProductosDemo">
+                                                   
+                                                  </table>
+                                            </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <label for="title" class="col-sm-2 control-label">Descripción</label>
                                         <textarea class="form-control" id="descripcion" rows="10" cols="50" disabled></textarea>
@@ -173,7 +179,7 @@
                               </div>
                               <div class="modal-footer">
                               <div class="col-lg-12 col-md-12 col-sm-12">
-                                <button type="button" class="btn btn-success btnCerrarVista" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-success btnCerrarVistas" data-dismiss="modal">Cerrar</button>
                               </div>
                               </div>
        
@@ -185,12 +191,15 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    var elemento =  $("#valorElegido").val();
+    document.ready = document.getElementById("elegirAgente").value = elemento;
+</script>
+    <script type="text/javascript">
 
-    <script>
+    $(function() {
 
-    $(document).ready(function() {
-
-        var date = new Date();
+       var date = new Date();
        var yyyy = date.getFullYear().toString();
        var mm = (date.getMonth()+1).toString().length == 1 ? "0"+(date.getMonth()+1).toString() : (date.getMonth()+1).toString();
        var dd  = (date.getDate()).toString().length == 1 ? "0"+(date.getDate()).toString() : (date.getDate()).toString();
@@ -208,7 +217,7 @@
                 list:     'Lista'
             },
             header: {
-                 language: 'es',
+                locale: 'es',
                 left: 'prev,next today',
                 center: 'title',
                 right: 'month,basicWeek,listDay,agendaDay,agendaFiveDay'
@@ -229,12 +238,69 @@
                     $('#ModalDetalleEvento #agente').val(event.agente);     
                     $('#ModalDetalleEvento #fecha').val(event.fecha);     
                     $('#ModalDetalleEvento #hora').val(event.hora); 
+
+                    if (event.color == "#FFB848") {
+                        var listaCabeceras = ['Producto'];
+
+                          body = document.getElementById("tablaDetalleProductosDemo");
+
+                          thead = document.createElement("thead");
+                          thead.setAttribute('style','background:#008B8B;color: white');
+
+                          theadTr = document.createElement("tr");
+
+                          for (var h = 0; h < listaCabeceras.length; h++) {
+                              
+                              var celdaThead = document.createElement("th");
+                              var textoCeldaThead = document.createTextNode(listaCabeceras[h]);
+                              celdaThead.appendChild(textoCeldaThead);
+                              theadTr.appendChild(celdaThead);
+
+                          }
+                        
+                          thead.appendChild(theadTr);
+               
+                          tblBody = document.createElement("tbody");
+
+                          var  productos = event.productos;
+                          var  productos = productos.split(',');
+                    
+                          
+                          // Crea las celdas
+                          for (var i = 0; i <  productos.length; i++) {
+                            // Crea las hileras de la tabla
+                            var hilera = document.createElement("tr");
+                         
+                                var celda = document.createElement("td");
+                                var textoCelda = document.createTextNode(productos[i]);
+                                celda.appendChild(textoCelda);
+                                hilera.appendChild(celda);
+                               
+                         
+                            // agrega la hilera al final de la tabla (al final del elemento tblbody)
+                            tblBody.appendChild(hilera);
+                          }
+                         
+                          // appends <table> into <body>
+                          body.appendChild(tblBody);
+                          body.appendChild(thead);
+                        
+                    }
+
                     $('#ModalDetalleEvento').modal('show');
                 });
             },
            
             events: [
-            <?php foreach($eventos as $event): 
+            <?php 
+
+            function eliminarEspacios($cadena)
+            {
+                return preg_replace("/\s+/", " ", trim($cadena));
+            }
+
+
+            foreach($eventos as $event): 
             
                 $fechaInicio = $event["fecha"]." ".$event["hora"];
                 $fechaFinal = $event["fecha"]." ".$event["hora"];
@@ -272,15 +338,16 @@
             ?>
                 {
                     id: '<?php echo $event['id']; ?>',
-                    title: '<?php echo $event['asunto']; ?>',
+                    title: '<?php echo  eliminarEspacios($event['asunto']) ?>',
                     start: '<?php echo $fechaInicio; ?>',
                     end: '<?php echo $fechaFinal; ?>',
                     color: '<?php echo $evento ?>',
-                    contacto:'<?php echo $event['prospecto']?>',
+                    contacto:'<?php echo  eliminarEspacios($event['prospecto'])?>',
                     agente:'<?php echo $event['agente']?>',
                     fecha:'<?php echo $event['fecha']?>',
                     hora:'<?php echo $event['hora']?>',
-                    descripcion:'<?php echo $event['descripcion'] ?>',
+                    productos:'<?php echo eliminarEspacios($event['productos'])?>',
+                    descripcion:'<?php echo eliminarEspacios($event['descripcion']) ?>'
                 },
             <?php endforeach; ?>
             ]
@@ -289,8 +356,4 @@
         
     });
 
-</script>
-<script>
-    var elemento =  $("#valorElegido").val();
-    document.ready = document.getElementById("elegirAgente").value = elemento;
 </script>

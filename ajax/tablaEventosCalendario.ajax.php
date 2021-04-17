@@ -66,9 +66,9 @@ class TablaEventosCalendario{
 
 			$datosJson	 .= '[
 				      "'.$eventos[$i]["id"].'",
-				      "<strong>'.$eventos[$i]["contacto"].'</strong>",
-				      "<strong>'.$eventos[$i]["asunto"].'</strong>",
-				      "'.$eventos[$i]["descripcion"].'",
+				      "<strong>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $eventos[$i]["contacto"]).'</strong>",
+				      "<strong>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $eventos[$i]["asunto"]).'</strong>",
+				      "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $eventos[$i]["descripcion"]).'",
 				      "'.$eventos[$i]["fecha"].'",
 				      "'.$eventos[$i]["hora"].'",
 				      "'.$estatus.'",

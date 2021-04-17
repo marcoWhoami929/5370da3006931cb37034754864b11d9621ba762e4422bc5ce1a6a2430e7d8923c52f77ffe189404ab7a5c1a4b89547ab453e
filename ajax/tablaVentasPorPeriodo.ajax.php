@@ -5,12 +5,25 @@ require_once "../modelos/crm.php";
 
 class TablaVentas{
 
-	public function mostrarTablas(){	
+	public function mostrarTablas(){
+		$idAgente = $_GET["idAgente"];
+        $fechaInicial = $_GET["fechaInicial"];
+        $fechaFinal = $_GET["fechaFin"];
 
- 		$ventas = ControladorGeneral::ctrMostrarVentas();
+        if ($idAgente != 0 && $fechaInicial != "" && $fechaFinal != "") {
+            $parametros = "WHERE av.id = ".$idAgente." AND vt.fechaVenta BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%'";
+        }else if ($idAgente == 0 && $fechaInicial != "" && $fechaFinal != "") {
+            $parametros = "WHERE vt.fechaVenta BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%'";
+        }else if ($idAgente != 0) {
+            $parametros = "WHERE av.id = ".$idAgente;
+        }else{
+            $parametros = "";
+        }
+
+        $ventas = ControladorGeneral::ctrMostrarVentas($parametros);
 
  		$datosJson = '{
-		 
+
 	 	"data": [ ';
 
 	 	for($i = 0; $i < count($ventas); $i++){
@@ -20,10 +33,10 @@ class TablaVentas{
 			=============================================*/
 
 			if ($ventas[$i]["estatusVenta"] == 1) {
-				$estatus = "<button type='button' class='btn btn-success btn-sm'><i class='fas fa-money-bill-wave'></i></button>";
+				$estatus = "<button type='button' class='btn btn-success btn-sm'><i class='fas fa-money-bill-wave'></i>Vigente</button>";
 
 			}else{
-				$estatus = "<button type='button' class='btn btn-danger btn-sm'><i class='fas fa-money-bill-wave'></i></button>";
+				$estatus = "<button type='button' class='btn btn-danger btn-sm'><i class='fas fa-money-bill-wave'></i>Cancelada</button>";
 			}
 
 			if ($ventas[$i]["productos"] != "") {
@@ -34,11 +47,11 @@ class TablaVentas{
 
 			$datosJson	 .= '[
 				      "'.($ventas[$i]["idVenta"]).'",
-				      "<strong>'.$ventas[$i]["nombreCompleto"].'</strong><br><em>'.$ventas[$i]["taller"].'</em>",
-				      "<strong>'.$ventas[$i]["concepto"].'</strong>",
-				       "<strong>'.$ventas[$i]["serie"].'</strong><em>'.$ventas[$i]["folio"].'</em>",
+				      "<strong>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $ventas[$i]["nombreCompleto"]).'</strong><br><em>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $ventas[$i]["taller"]).'</em>",
+				      "<strong>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $ventas[$i]["concepto"]).'</strong>",
+				      "<strong>'.$ventas[$i]["serie"].'</strong><em>'.$ventas[$i]["folio"].'</em>",
 				      "'.$ventas[$i]["fechaVenta"].'",
-				      "'.$ventas[$i]["observaciones"].'",
+				      "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $ventas[$i]["observaciones"]).'",
 				      "<strong> $ '.number_format($ventas[$i]["montoTotal"],2).'</strong>",
 				      "'.$ventas[$i]["cerradoDia"].'",
 				      "'.$ventas[$i]["agente"].'",
@@ -52,8 +65,8 @@ class TablaVentas{
 	 	$datosJson = substr($datosJson, 0, -1);
 
 		$datosJson.=  ']
-			  
-		}'; 
+
+		}';
 
 		echo $datosJson;
 
@@ -63,6 +76,3 @@ class TablaVentas{
 
 $activar = new TablaVentas();
 $activar -> mostrarTablas();
-
-
-

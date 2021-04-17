@@ -4,17 +4,20 @@
 
         <nav class="sidebar-nav" >
             <ul id="sidebarnav" class="p-t-30">
-                <li class="sidebar-item"> 
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard" aria-expanded="false"><i class="fas fa-home fa-2x" style="padding: 4px;"></i><span class="hide-menu">Inicio</span></a>
                 </li>
-                <li class="sidebar-item"> 
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="cartera" aria-expanded="false"><i class="fas fa-users fa-2x" style="padding: 5px;"></i><span class="hide-menu" >Cartera</span></a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="prospectos" aria-expanded="false"><i class="fas fa-users fa-2x" style="padding: 5px;"></i><span class="hide-menu" >Prospectos</span></a>
                 </li>
-                <li class="sidebar-item"> 
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="oportunidades" aria-expanded="false"><i class="fas fa-handshake fa-2x" style="padding: 5px;"></i><span class="hide-menu">Oportunidades</span></a>
                 </li>
 
-                <li class="sidebar-item"> 
+                <li class="sidebar-item">
                   <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                     <i class="fas fa-bookmark fa-2x" style="padding: 4px;"></i>
                     <span class="hide-menu">Clientes</span>
@@ -35,7 +38,7 @@
                     </li>
                   </ul>
                 </li>
-                <li class="sidebar-item"> 
+                <li class="sidebar-item">
                   <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                     <i class="fas fa-calendar fa-2x" style="padding: 4px;"></i>
                     <span class="hide-menu">Calendario</span>
@@ -53,8 +56,8 @@
                     </li>
                   </ul>
                 </li>
-   
-                <li class="sidebar-item"> 
+
+                <li class="sidebar-item">
                   <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                     <i class="fas fa-user-edit fa-2x" style="padding: 5px;"></i>
                     <span class="hide-menu">Lista Eventos </span>
@@ -95,11 +98,11 @@
                   </ul>
                 </li>
 
-                <li class="sidebar-item"> 
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="descartados" aria-expanded="false"><i class="fas fa-user-slash fa-2x" style="padding: 5px;"></i><span class="hide-menu">Descartados</span></a>
                 </li>
-                
-                <li class="sidebar-item"> 
+
+                <li class="sidebar-item">
                   <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                     <i class="fas fa-cogs fa-2x" style="padding: 5px;"></i>
                     <span class="hide-menu">Opciones </span>
@@ -174,11 +177,11 @@
                   </ul>
                 </li>
 
-                <!-- <li class="sidebar-item"> 
+                <!-- <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i class="mdi mdi-archive" style="padding: 5px;"></i><span class="hide-menu">Reportes</span></a>
                 </li>-->
 
-                     
+
             </ul>
         </nav>
 

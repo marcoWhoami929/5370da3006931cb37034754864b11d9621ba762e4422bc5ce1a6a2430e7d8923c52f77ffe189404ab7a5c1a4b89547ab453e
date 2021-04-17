@@ -51,6 +51,8 @@
 
                  ?>
                </select>
+               <a id="vinculoDescargarReporte"><button type="button" class="btn btn-success" style="display: none" id="btnDescargarReporteTimeLline">
+                                        <i class="fas fa-file-excel fa-2x"></i></button></a>
              </div>
            </div>
          </div>

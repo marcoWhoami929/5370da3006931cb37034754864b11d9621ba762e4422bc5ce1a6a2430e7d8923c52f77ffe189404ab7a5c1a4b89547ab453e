@@ -13,6 +13,7 @@ $conn = mysqli_connect("localhost","sanfranc_matriz","rootWhoami929") or die("co
 mysqli_set_charset($conn, 'utf8');
 mysqli_select_db($conn,"sanfranc_crm") or die("could not connect database");
 
+
 //LOGIN
 if(isset($_POST['login']))
 {
@@ -64,8 +65,18 @@ if(isset($_POST['listarProspectos']))
 {
 	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 
-	$listarProspectos = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono FROM prospectos WHERE idAgente = '$idAgente' and oportunidad = 0 and cliente = 0 and descartado = 0");
+	if ($idAgente != 11 && $idAgente != 15) {
+		
+		$listarProspectos = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE idAgente = '$idAgente' and oportunidad = 0 and cliente = 0 and descartado = 0 and estatus = 1 ORDER by habilitado desc");
 
+	}else{
+
+		$listarProspectos = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE oportunidad = 0 and cliente = 0 and descartado = 0 and estatus = 1 and clasificacion IN (1,2,3,4) ORDER by habilitado desc");
+
+
+	}
+
+	
 	if(mysqli_num_rows($listarProspectos) != 0)
 	{
 			$data = array();
@@ -87,7 +98,16 @@ if(isset($_POST['listarOportunidades']))
 {
 	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 
-	$listarProspectos = mysqli_query($conn,"SELECT prosp.id,prosp.nombreCompleto,prosp.taller,prosp.celular,prosp.telefono FROM oportunidades as opor INNER JOIN prospectos as prosp ON opor.idProspecto = prosp.id WHERE opor.idAgente = '$idAgente'  and prosp.descartado = 0 and prosp.oportunidadesCreadas != 0 and opor.ventaCerrada = 0 GROUP by id");
+	if ($idAgente != 11 && $idAgente != 15) {
+		
+		$listarProspectos = mysqli_query($conn,"SELECT prosp.id,prosp.nombreCompleto,prosp.taller,prosp.celular,prosp.telefono,prosp.idAgente FROM oportunidades as opor INNER JOIN prospectos as prosp ON opor.idProspecto = prosp.id WHERE opor.idAgente = '$idAgente' and prosp.cliente != 1  and prosp.descartado = 0 and prosp.oportunidadesCreadas != 0 and opor.ventaCerrada = 0 GROUP by id");
+
+	}else{
+
+		$listarProspectos = mysqli_query($conn,"SELECT prosp.id,prosp.nombreCompleto,prosp.taller,prosp.celular,prosp.telefono,prosp.idAgente FROM oportunidades as opor INNER JOIN prospectos as prosp ON opor.idProspecto = prosp.id WHERE prosp.cliente != 1  and prosp.descartado = 0 and prosp.oportunidadesCreadas != 0 and opor.ventaCerrada = 0  and prosp.clasificacion IN (1,2,3,4) GROUP by id");
+	}
+
+	
 
 	if(mysqli_num_rows($listarProspectos) != 0)
 	{
@@ -111,7 +131,15 @@ if(isset($_POST['listarResultadosBusqueda']))
 	$search=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['search'])));
 	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 
-	$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono FROM prospectos WHERE idAgente = '$idAgente' and oportunidad = '0' and cliente = '0' and descartado = '0' and nombreCompleto LIKE '%$search%' || taller LIKE '%$search%' ");
+	if ($idAgente != 11 && $idAgente != 15) {
+
+		$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE idAgente = '$idAgente' and oportunidad = '0' and cliente = '0' and descartado = '0' and estatus = '1' and nombreCompleto LIKE '%$search%' || taller LIKE '%$search%' ");
+	}else{
+
+		$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE oportunidad = '0' and cliente = '0' and descartado = '0' and estatus = '1' and clasificacion IN (1,2,3,4) and nombreCompleto LIKE '%$search%' || taller LIKE '%$search%' ");
+	}
+
+	
 
 	if(mysqli_num_rows($listarResultadosBusqueda) != 0){
 			$data = array();
@@ -126,6 +154,107 @@ if(isset($_POST['listarResultadosBusqueda']))
 	echo mysqli_error($conn);
 }
 /****BUSCADOR DE PROSPECTOS*********/
+/*****BUSCADOR DE CLIENTES********/
+if(isset($_POST['listarResultadosBusquedaClientes']))
+{
+	$search=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['search'])));
+	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
+
+	if ($idAgente != 11 && $idAgente != 15) {
+
+		$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE idAgente = '$idAgente' and cliente = '1' and descartado = '0' and estatus = '1' and nombreCompleto LIKE '%$search%' || taller LIKE '%$search%' ");
+	}else{
+
+		$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE  cliente = '1' and descartado = '0' and estatus = '1' and clasificacion IN (1,2,3,4) and nombreCompleto LIKE '%$search%' || taller LIKE '%$search%' ");
+	}
+
+	
+
+	if(mysqli_num_rows($listarResultadosBusqueda) != 0){
+			$data = array();
+			while($r = $listarResultadosBusqueda->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****BUSCADOR DE CLIENTES*********/
+/*****BUSCADOR DE CLIENTES EVENTOS********/
+if(isset($_POST['listarResultadosBusquedaClientesEventos']))
+{
+	$search=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['search'])));
+	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
+
+	if ($idAgente != 11 && $idAgente != 15) {
+
+		$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE idAgente = '$idAgente'  and descartado = '0' and estatus = '1' and nombreCompleto LIKE '%$search%' || taller LIKE '%$search%' ");
+	}else{
+
+		$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE   descartado = '0' and estatus = '1' and clasificacion IN (1,2,3,4) and nombreCompleto LIKE '%$search%' || taller LIKE '%$search%' ");
+	}
+
+	
+
+	if(mysqli_num_rows($listarResultadosBusqueda) != 0){
+			$data = array();
+			while($r = $listarResultadosBusqueda->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****BUSCADOR DE CLIENTES*********/
+/*****FILTRO DE PROSPECTOS********/
+if(isset($_POST['listarResultadosFiltro']))
+{
+	$filtro=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['filtro'])));
+	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
+
+		$listarResultadosFiltro=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE idAgente = '$filtro'  and descartado = '0' and estatus = '1' and cliente = '0' and oportunidad = '0'");
+	 
+	if(mysqli_num_rows($listarResultadosFiltro) != 0){
+			$data = array();
+			while($r = $listarResultadosFiltro->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****FILTRO DE PROSPECTOS*********/
+/*****FILTRO DE CLIENTES POR AGENTE********/
+if(isset($_POST['mostrarResultados']))
+{
+	$filtroClientes=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['filtroClientes'])));
+
+
+		$mostrarResultados=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,idAgente FROM prospectos WHERE cliente = 1 and descartado != 1 and idAgente = '$filtroClientes'");
+	 
+	if(mysqli_num_rows($mostrarResultados) != 0){
+			$data = array();
+			while($r = $mostrarResultados->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****FILTRO DE CLIENTES POR AGENTE*********/
+
 /*******DETALLE PROSPECTO***********/
 if(isset($_POST['detalleProspecto']))
 {
@@ -230,14 +359,14 @@ if(isset($_POST['editarProspecto']))
         $tituloProspectoPerfil = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['tituloProspectoPerfil'])));
         $faseProspectoPerfil = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['faseProspectoPerfil'])));
         $origenProspectoPerfil = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['origenProspectoPerfil'])));
-        $comentariosPerfil = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['origenProspectoPerfil'])));
+        $comentariosPerfil = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['comentariosPerfil'])));
 
         $accion = "Ha sido actualizado";
 
 
         $notificacion =  mysqli_query($conn,"INSERT INTO `bitacora` (`accion`,`idAgente`,`idProspecto`) values ('$accion','$idAgente','$idProspecto') ");
 
-	$q = mysqli_query($conn,"UPDATE `prospectos` SET `nombreCompleto` = '$nombrePerfil',`correo` = '$correoPerfil',`taller` = '$tallerPerfil',`telefono` = '$telefonoPerfil',`celular` = '$celularPerfil', `domicilio` = '$direccionPerfil',`latitud` = '$latitud',`longitud` = '$longitud', `tituloProspecto` = '$tituloProspectoPerfil',`faseProspecto` = '$faseProspectoPerfil',`origenProspecto` = '$origenProspectoPerfil'  WHERE  `id` = '$idProspecto'");
+	$q = mysqli_query($conn,"UPDATE `prospectos` SET `nombreCompleto` = '$nombrePerfil',`correo` = '$correoPerfil',`taller` = '$tallerPerfil',`telefono` = '$telefonoPerfil',`celular` = '$celularPerfil', `domicilio` = '$direccionPerfil',`latitud` = '$latitud',`longitud` = '$longitud', `tituloProspecto` = '$tituloProspectoPerfil',`faseProspecto` = '$faseProspectoPerfil',`origenProspecto` = '$origenProspectoPerfil',`comentario` = '$comentariosPerfil'  WHERE  `id` = '$idProspecto'");
 
 		
 		if($q){
@@ -266,11 +395,13 @@ if(isset($_POST['reasignarAgente']))
         $comentarios = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['comentariosAsignacion'])));
 
         $accion = "".$nombreAgente." ha reasignado a ".$nombreProspecto." con ".$nombreAgenteAsignado."";
-
+        $idAccion = 15; 
 
         $notificacion =  mysqli_query($conn,"INSERT INTO `bitacora` (`accion`,`idAgente`,`idProspecto`) values ('$accion','$idAgente','$idProspecto') ");
 
-		$q = mysqli_query($conn,"UPDATE `prospectos` SET `idAgente` = '$nuevoAgente',`comentarioReasignacion` = '$comentarios'  WHERE  `id` = '$idProspecto'");
+        $seguimiento =  mysqli_query($conn,"INSERT INTO `seguimientos` (`titulo`,`idAgente`,`idProspecto`,`idAccion`) values ('$accion','$idAgente','$idProspecto','$idAccion') ");
+
+		$q = mysqli_query($conn,"UPDATE `prospectos` SET `idAgente` = '$nuevoAgente',`comentarioReasignacion` = '$comentarios',`reasignado` = '1'  WHERE  `id` = '$idProspecto'");
 
 		
 		if($q){
@@ -396,7 +527,7 @@ if(isset($_POST['generarOportunidad']))
         		$certeza = "90%";
         		break;
         	case '10':
-        		$certeza = "10%";
+        		$certeza = "100%";
         		break;
 
         }
@@ -437,7 +568,18 @@ if(isset($_POST['listarClientes']))
 {
 	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 
-	$listarClientes = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono FROM prospectos WHERE cliente = 1 and idAgente = '$idAgente'");
+	if ($idAgente != 11 && $idAgente != 15) {
+		
+		$listarClientes = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,idAgente FROM prospectos WHERE cliente = 1 and descartado != 1 and idAgente = '$idAgente'");
+
+	}else{
+
+
+		$listarClientes = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,idAgente FROM prospectos WHERE cliente = 1 and descartado != 1 and clasificacion IN (1,2,3,4)");
+
+	}
+
+	
 
 	if(mysqli_num_rows($listarClientes) != 0)
 	{
@@ -513,6 +655,8 @@ if(isset($_POST['cerrarVenta']))
         $montoVenta = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['montoVenta'])));
         $fechaVenta = date('Y-m-d');
         $comisionVenta = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['comisionVenta'])));
+        $serieVenta = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['serieVenta'])));
+        $folioVenta  = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['folioVenta'])));
         $observacionesVenta = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['observacionesVenta'])));
 
         $accion = "Nueva Venta Realizada";
@@ -532,7 +676,7 @@ if(isset($_POST['cerrarVenta']))
         $prospecto = mysqli_query($conn,"UPDATE `prospectos` SET `cliente` = '1',`oportunidadesCreadas` = '$totalOportunidades' WHERE `id` = '$idProspecto'");
         $oportunidad = mysqli_query($conn,"UPDATE `oportunidades` SET `ventaCerrada` = '1' WHERE `id` = '$idOportunidadVenta'");
 
-		$venta = mysqli_query($conn,"INSERT INTO `ventas` (`idOportunidad`,`concepto`,`cerradoDia`,`montoTotal`,`observaciones`,`noPagos`,`periodicidad`,`comisiones`,`porcentajeComision`,`estatusPagos`,`idAgente`,`idOportunidadVenta`) values ('$idProspecto','$conceptoVenta','$fechaVenta','$montoVenta','$observacionesVenta','1','Actual','$comisionVenta','0','Pagado','$idAgente','$idOportunidadVenta')");
+		$venta = mysqli_query($conn,"INSERT INTO `ventas` (`idOportunidad`,`concepto`,`cerradoDia`,`montoTotal`,`observaciones`,`noPagos`,`periodicidad`,`comisiones`,`porcentajeComision`,`estatusPagos`,`idAgente`,`idOportunidadVenta`,`estatusVenta`,`serie`,`folio`,`estatus`) values ('$idProspecto','$conceptoVenta','$fechaVenta','$montoVenta','$observacionesVenta','1','Actual','$comisionVenta','0','Pagado','$idAgente','$idOportunidadVenta','1','$serieVenta','$folioVenta','Vigente')");
 
 		
 		if($venta){
@@ -552,7 +696,15 @@ if(isset($_POST['listaGeneralProspectos']))
 {
 	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 
-	$listaGeneral = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,correo FROM prospectos WHERE idAgente = '$idAgente' order by nombreCompleto asc");
+	if ($idAgente != 11 && $idAgente != 15) {
+
+		$listaGeneral = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,correo,idAgente FROM prospectos WHERE idAgente = '$idAgente' and descartado = 0");
+	}else{
+
+		$listaGeneral = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,correo,idAgente FROM prospectos WHERE clasificacion IN (1,2,3,4) and idAgente = '$idAgente' and descartado = 0 order by nombreCompleto asc");
+	}
+
+	
 
 	if(mysqli_num_rows($listaGeneral) != 0)
 	{
@@ -576,7 +728,16 @@ if(isset($_POST['ventasRealizadas']))
 {
 	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 
-	$ventas = mysqli_query($conn,"SELECT id,concepto,cerradoDia,montoTotal,estatusPagos FROM `ventas` WHERE idAgente = '$idAgente'");
+	if ($idAgente != 11 && $idAgente != 15) {
+		
+		$ventas = mysqli_query($conn,"SELECT id,concepto,cerradoDia,montoTotal,estatusPagos,idAgente FROM `ventas` WHERE idAgente = '$idAgente'");
+
+	}else{
+
+		$ventas = mysqli_query($conn,"SELECT id,concepto,cerradoDia,montoTotal,estatusPagos,idAgente FROM `ventas`");
+	}
+
+	
 
 	if(mysqli_num_rows($ventas) != 0)
 	{
@@ -646,6 +807,7 @@ if(isset($_POST['datosProspectoDetalle']))
 /*******AGENDAR NUEVA LLAMADA****/
 if(isset($_POST['agendarNuevaLlamada']))
 {	
+	$tipoLlamada =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['tipoLlamada'])));
 	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 	$idProspecto =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idProspecto'])));
 	$titulo =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['titulo'])));
@@ -654,14 +816,19 @@ if(isset($_POST['agendarNuevaLlamada']))
 	$descripcion =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['descripcion'])));
 	$nombreProspecto =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['nombreProspecto'])));
 
-	$accion = "Nueva Llamada Agendada con ".$nombreProspecto." para el dia ".$fecha." a las ".$hora."";
-        $idAccion = 1;
+	$idAccion = 1;
 
-        $bitacora =  mysqli_query($conn,"INSERT INTO `bitacora` (`accion`,`idAgente`,`idProspecto`) values ('$accion','$idAgente','$idProspecto') ");
+	if ($tipoLlamada == "directa") {
+		$accion = "Nueva Llamada Realizada a: ".$nombreProspecto;
+	}else{
+		$accion = "Nueva Llamada Agendada con ".$nombreProspecto." para el dia ".$fecha." a las ".$hora."";	
+	}
+	//$accion = "Nueva Llamada Agendada con ".$nombreProspecto." para el dia ".$fecha." a las ".$hora."";
 
-        $seguimiento =  mysqli_query($conn,"INSERT INTO `seguimientos` (`titulo`,`idAgente`,`idProspecto`,`idAccion`) values ('$accion','$idAgente','$idProspecto','$idAccion') ");
+    $bitacora =  mysqli_query($conn,"INSERT INTO `bitacora` (`accion`,`idAgente`,`idProspecto`) values ('$accion','$idAgente','$idProspecto') ");
+    $seguimiento =  mysqli_query($conn,"INSERT INTO `seguimientos` (`titulo`,`idAgente`,`idProspecto`,`idAccion`) values ('$accion','$idAgente','$idProspecto','$idAccion') ");
 
-		$llamada = mysqli_query($conn,"INSERT INTO `llamada` (`titulo`,`descripcion`,`fecha`,`hora`,`idProspecto`,`idAgente`,`finalizada`,`detalle`) values ('$titulo','$descripcion','$fecha','$hora','$idProspecto','$idAgente','0','')");
+	$llamada = mysqli_query($conn,"INSERT INTO `llamada` (`titulo`,`descripcion`,`fecha`,`hora`,`idProspecto`,`idAgente`,`finalizada`,`detalle`) values ('$titulo','$descripcion','$fecha','$hora','$idProspecto','$idAgente','0','')");
 
 		
 		if($llamada){
@@ -821,7 +988,7 @@ if(isset($_POST['agendarNuevaDemostracion']))
 /*******DESCARTAR PROSPECTO****/
 if(isset($_POST['descartarProspecto']))
 {	
-	
+		
 
 	  	$idProspecto = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idProspecto'])));
         $idAgente = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
@@ -830,13 +997,14 @@ if(isset($_POST['descartarProspecto']))
         $motivoDescartado = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['motivoDescartado'])));
 
         $accion = "".$nombreAgente." ha descartado a ".$nombreDescartado."";
-
+        $idAccion = 14;
 
         $notificacion =  mysqli_query($conn,"INSERT INTO `bitacora` (`accion`,`idAgente`,`idProspecto`) values ('$accion','$idAgente','$idProspecto') ");
+        $seguimiento =  mysqli_query($conn,"INSERT INTO `seguimientos` (`titulo`,`idAgente`,`idProspecto`,`idAccion`) values ('$accion','$idAgente','$idProspecto','$idAccion') ");
 
         $descartar =  mysqli_query($conn,"INSERT INTO `descartados` (`razonDescartado`,`idAgente`,`idProspecto`) values ('$motivoDescartado','$idAgente','$idProspecto') ");
 
-		$descartado = mysqli_query($conn,"UPDATE `prospectos` SET `descartado` = '1'  WHERE  `id` = '$idProspecto'");
+		$descartado = mysqli_query($conn,"UPDATE `prospectos` SET `descartado` = '1',`estatus` = '0'  WHERE  `id` = '$idProspecto'");
 
 		
 		if($descartado){
@@ -866,7 +1034,7 @@ if(isset($_POST['listarCalendario']))
 		$fecha = date('Y-m-d');;
 	}
 
-
+	
 	$calendario = mysqli_query($conn,"SELECT id,asunto,descripcion,fecha,hora,'citas' as evento,finalizada FROM `citas` WHERE  fecha = '$fecha' and idAgente = '$idAgente' UNION SELECT id,titulo as asunto,descripcion,fecha,hora,'llamada' as evento,finalizada FROM `llamada` WHERE  fecha = '$fecha' and idAgente = '$idAgente' UNION SELECT id,asunto,descripcion,fecha,hora,'visitas' as evento,finalizada FROM `visitas` WHERE  fecha = '$fecha' and idAgente = '$idAgente' UNION SELECT id,asunto,descripcion,fecha,hora,'recordatorios' as evento,finalizada FROM `recordatorios` WHERE  fecha = '$fecha' and idAgente = '$idAgente' UNION SELECT id,asunto,descripcion,fecha,hora,'demostraciones' as evento,finalizada FROM `demostraciones` WHERE  fecha = '$fecha' and idAgente = '$idAgente'");
 
 	if(mysqli_num_rows($calendario) != 0)
@@ -1169,7 +1337,7 @@ if(isset($_POST['obtenerDetalleVenta']))
 	$idVenta = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idVenta'])));
 	
 
-	$detalle = mysqli_query($conn,"SELECT vent.id,vent.concepto,vent.cerradoDia,vent.montoTotal,vent.observaciones,opor.productos,opor.codigos,opor.cantidades,opor.precios,prosp.nombreCompleto,prosp.domicilio,prosp.celular,prosp.taller FROM `ventas` as vent INNER JOIN oportunidades as opor ON vent.idOportunidadVenta= opor.id INNER JOIN prospectos as prosp ON vent.idOportunidad = prosp.id WHERE vent.id = '$idVenta'");
+	$detalle = mysqli_query($conn,"SELECT vent.id,vent.concepto,vent.cerradoDia,vent.montoTotal,vent.observaciones,vent.serie,vent.folio,vent.cancelado,vent.estatus,vent.fechaCancelacion,vent.motivoCancelacion,opor.productos,opor.codigos,opor.cantidades,opor.precios,prosp.nombreCompleto,prosp.domicilio,prosp.celular,prosp.taller,vent.idOportunidad as prospectoId,vent.idAgente FROM `ventas` as vent INNER JOIN oportunidades as opor ON vent.idOportunidadVenta= opor.id INNER JOIN prospectos as prosp ON vent.idOportunidad = prosp.id WHERE vent.id = '$idVenta'");
 
 	if(mysqli_num_rows($detalle) != 0)
 	{
@@ -1209,5 +1377,152 @@ if(isset($_POST['obtenerListaPrecios']))
 	echo mysqli_error($conn);
 }
 /********OBTENER LISTA DE PRECIOS ESPECIALES****/
+/*****BUSCADOR DE PRECIOS********/
+if(isset($_POST['listarResultadosBusquedaPrecios']))
+{
+	$search=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['search'])));
+	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
 
+	$listarResultadosBusqueda=mysqli_query($conn,"SELECT id,codigo,producto,precioPublico,precioEspecial,descuento FROM listaPrecios WHERE  producto LIKE '%$search%' || codigo LIKE '%$search%' ");
+
+	if(mysqli_num_rows($listarResultadosBusqueda) != 0){
+			$data = array();
+			while($r = $listarResultadosBusqueda->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****BUSCADOR DE PRECIOS*********/
+/*****obtenerSpeech********/
+if(isset($_POST['obtenerSpeech']))
+{
+	
+	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
+	$idProspecto =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idProspecto'])));
+
+	$listarSpeech=mysqli_query($conn,"SELECT * FROM speech WHERE idAgente = '$idAgente' and idProspecto = '$idProspecto'  ");
+
+	if(mysqli_num_rows($listarSpeech) != 0){
+			$data = array();
+			while($r = $listarSpeech->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****obtenerSpeech*********/
+/*******GENERAR SPEECH****/
+if(isset($_POST['generarSpeech']))
+{	
+	$idAgente = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
+	$idProspecto = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idProspecto'])));
+	$productosCalidad = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['productosCalidad'])));
+	$problemasCalidad = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['problemasCalidad'])));
+	$asesoramientoCalidad = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['asesoramientoCalidad'])));
+	$entregasServicio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['entregasServicio'])));
+	$igualadoServicio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['igualadoServicio'])));
+	$atencionServicio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['atencionServicio'])));
+	$productosFueraPrecio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['productosFueraPrecio'])));
+	$preciosFueraPrecio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['preciosFueraPrecio'])));
+	$canalizado = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['canalizado'])));
+	$canalizadoCon = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['canalizadoCon'])));
+
+        $speech =  mysqli_query($conn,"INSERT INTO `speech` (`idAgente`,`idProspecto`,`productos`,`problemas`,`asesoramiento`,`entregas`,`igualado`,`atencion`,`productosPrecios`,`preciosProductos`,`canalizado`,`canalizadoCon`) values ('$idAgente','$idProspecto','$productosCalidad','$problemasCalidad','$asesoramientoCalidad','$entregasServicio','$igualadoServicio','$atencionServicio','$productosFueraPrecio','$preciosFueraPrecio','$canalizado','$canalizadoCon') ");
+
+
+		if($speech){
+
+			echo "success";
+
+		}else{
+
+			echo "failed";
+		}
+	echo mysqli_error($conn);
+}
+if(isset($_POST['actualizarSpeech']))
+{	
+	$idSpeech = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idSpeech'])));
+	$idAgente = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
+	$idProspecto = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idProspecto'])));
+	$productosCalidad = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['productosCalidad'])));
+	$problemasCalidad = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['problemasCalidad'])));
+	$asesoramientoCalidad = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['asesoramientoCalidad'])));
+	$entregasServicio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['entregasServicio'])));
+	$igualadoServicio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['igualadoServicio'])));
+	$atencionServicio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['atencionServicio'])));
+	$productosFueraPrecio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['productosFueraPrecio'])));
+	$preciosFueraPrecio = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['preciosFueraPrecio'])));
+	$canalizado = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['canalizado'])));
+	$canalizadoCon = mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['canalizadoCon'])));
+
+        $speech = mysqli_query($conn,"UPDATE `speech` SET `productos` = '$productosCalidad',`problemas` = '$problemasCalidad',`asesoramiento` = '$asesoramientoCalidad',`entregas` = '$entregasServicio',`igualado` = '$igualadoServicio',`atencion` = '$atencionServicio',`productosPrecios` = '$productosFueraPrecio',`preciosProductos` = '$preciosFueraPrecio',`canalizado` = '$canalizado',`canalizadoCon` = '$canalizadoCon' WHERE  `id` = '$idSpeech'");
+		if($speech){
+
+			echo "success";
+
+		}else{
+
+			echo "failed";
+		}
+	echo mysqli_error($conn);
+}
+
+/********GENERAR SPEECH****/
+/*****FILTRO DE USUARIOS EVENTOS********/
+if(isset($_POST['listarResultadosFiltroEventos']))
+{
+	$filtro=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['filtro'])));
+	$idAgente =mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['idAgente'])));
+
+		$listarResultadosFiltroEventos=mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,habilitado,idAgente FROM prospectos WHERE idAgente = '$filtro'  and descartado = '0' and estatus = '1'");
+	 
+	if(mysqli_num_rows($listarResultadosFiltroEventos) != 0){
+			$data = array();
+			while($r = $listarResultadosFiltroEventos->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****FILTRO DE USUARIOS EVENTOS*********/
+/*****FILTRO DE CLIENTES EN LLAMADA********/
+if(isset($_POST['mostrarFiltroClientesLlamada']))
+{
+	$filtroLlamadas=mysqli_real_escape_string($conn,htmlspecialchars(trim($_POST['filtroLlamadas'])));
+
+	if ($filtroLlamadas != 11) {
+
+		$mostrarFiltroClientesLlamada = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,correo,idAgente FROM prospectos WHERE idAgente = '$filtroLlamadas' and descartado = 0");
+	}else{
+
+		$mostrarFiltroClientesLlamada = mysqli_query($conn,"SELECT id,nombreCompleto,taller,celular,telefono,correo,idAgente FROM prospectos WHERE clasificacion IN (1,2,3,4) and idAgente = '$filtroLlamadas' and descartado = 0 order by nombreCompleto asc");
+	}
+
+	if(mysqli_num_rows($mostrarFiltroClientesLlamada) != 0){
+			$data = array();
+			while($r = $mostrarFiltroClientesLlamada->fetch_assoc()){
+				$data[] = $r;
+			}
+			echo json_encode($data);
+
+			}else{
+		echo 'failed';
+	}
+	echo mysqli_error($conn);
+}
+/****FILTRO DE CLIENTES EN LLAMADA*********/
 ?>

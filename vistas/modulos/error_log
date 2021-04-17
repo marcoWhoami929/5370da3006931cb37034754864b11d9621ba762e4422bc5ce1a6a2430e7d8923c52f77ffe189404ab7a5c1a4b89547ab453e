@@ -1,0 +1,4 @@
+[17-Aug-2020 13:27:40 America/Mexico_City] PHP Fatal error:  Class 'ControladorGeneral' not found in /home/sanfranc/public_html/crm/controladores/reportes.php on line 156
+[17-Aug-2020 13:29:47 America/Mexico_City] PHP Notice:  Undefined index: transcurrido in /home/sanfranc/public_html/crm/controladores/reportes.php on line 164
+[17-Aug-2020 13:29:47 America/Mexico_City] PHP Notice:  Undefined index: transcurrido in /home/sanfranc/public_html/crm/controladores/reportes.php on line 164
+[17-Aug-2020 13:29:47 America/Mexico_City] PHP Notice:  Undefined index: transcurrido in /home/sanfranc/public_html/crm/controladores/reportes.php on line 164

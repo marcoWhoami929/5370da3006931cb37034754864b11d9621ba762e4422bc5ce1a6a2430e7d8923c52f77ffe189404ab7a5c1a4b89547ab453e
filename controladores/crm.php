@@ -6,10 +6,20 @@ class ControladorGeneral{
 	/**
 	 * MOSTAR PROSPECTOS
 	 */
-	static public function ctrMostrarProspectos(){
+	static public function ctrMostrarProspectos($parametros){
 		$tabla = "prospectos";
 
-		$respuesta = ModeloGeneral::mdlMostrarProspectos($tabla);
+		$respuesta = ModeloGeneral::mdlMostrarProspectos($tabla,$parametros);
+
+		return $respuesta;
+	}
+	/**
+	 * MOSTAR CARTERA
+	 */
+	static public function ctrMostrarCartera($parametros){
+		$tabla = "prospectos";
+
+		$respuesta = ModeloGeneral::mdlMostrarCartera($tabla,$parametros);
 
 		return $respuesta;
 	}
@@ -17,30 +27,30 @@ class ControladorGeneral{
 	/**
 	 * MOSTRAR OPORTUNIDADES
 	 */
-	static public function ctrMostrarOportunidades(){
+	static public function ctrMostrarOportunidades($parametros){
 		$tabla = "oportunidades";
 
-		$respuesta = ModeloGeneral::mdlMostrarOportunidades($tabla);
+		$respuesta = ModeloGeneral::mdlMostrarOportunidades($tabla,$parametros);
 
 		return $respuesta;
 	}
 	/**
 	 * MOSTRAR CLIENTES
 	 */
-	static public function ctrMostrarClientes(){
+	static public function ctrMostrarClientes($parametros){
 		$tabla = "prospectos";
 
-		$respuesta = ModeloGeneral::mdlMostrarClientes($tabla);
+		$respuesta = ModeloGeneral::mdlMostrarClientes($tabla,$parametros);
 
 		return $respuesta;
 	}
 	/**
 	 * MOSTRAR VENTAS
 	 */
-	static public function ctrMostrarVentas(){
+	static public function ctrMostrarVentas($parametros){
 		$tabla = "ventas";
 
-		$respuesta = ModeloGeneral::mdlMostrarVentas($tabla);
+		$respuesta = ModeloGeneral::mdlMostrarVentas($tabla,$parametros);
 
 		return $respuesta;
 	}
@@ -72,6 +82,15 @@ class ControladorGeneral{
 		$tabla = $table;
 
 		$respuesta = ModeloGeneral::mdlObtenerIndicadores($table,$campos,$parametros);
+
+		return $respuesta;
+	}
+	/* OBTENER LOS DATOS DE LOS INDICADORES GRAFICOS*/
+	static public function ctrObtenerIndicadoresGraficos($table,$campos,$parametros){
+
+		$tabla = $table;
+
+		$respuesta = ModeloGeneral::mdlObtenerIndicadoresGraficos($table,$campos,$parametros);
 
 		return $respuesta;
 	}
@@ -257,14 +276,66 @@ class ControladorGeneral{
 		return $respuesta;
 
 	}
-	/** CAMBIOS 18/09/2020*/
-	static public function ctrShowViews($table){
-		
-		$tabla = $table;
+	/**
+	 * OBTENER OPORTUNIDADES CREADAS POR PROSPECTO
+	 */
+	static public function ctrObtenerOportunidadesCreadas($item,$valor){
+		$tabla = "oportunidades";
 
-		$respuesta = ModeloGeneral::mdlShowViews($tabla);
+		$respuesta = ModeloGeneral::mdlObtenerOportunidadesCreadas($tabla,$item,$valor);
 
 		return $respuesta;
 	}
-	
+	/**
+	 * OBTENER VENTAS CREADAS POR PROSPECTO
+	 */
+	static public function ctrObtenerVentasCreadas($item,$valor){
+		$tabla = "ventas";
+
+		$respuesta = ModeloGeneral::mdlObtenerVentasCreadas($tabla,$item,$valor);
+
+		return $respuesta;
+	}
+	/**
+	 * OBTENER ULTIMA VENTA GENERADA
+	 */
+	static public function ctrUltimaVentaGenerada($item,$valor){
+		$tabla = "ventas";
+
+		$respuesta = ModeloGeneral::mdlUltimaVentaGenerada($tabla,$item,$valor);
+
+		return $respuesta;
+	}
+	/**
+	 * OBTENER DATOS DE AGENTE
+	 */
+	static public function ctrMostrarDatosAgentes($tabla,$campos){
+		$tabla = $tabla;
+
+		$respuesta = ModeloGeneral::mdlMostrarDatosAgentes($tabla,$campos);
+
+		return $respuesta;
+	}
+	/**
+	 * CONTAR VENTAS
+	 */
+	static public function ctrContarVentas($item,$valor){
+		$tabla = "ventas";
+
+		$respuesta = ModeloGeneral::mdlContarVentas($tabla,$item,$valor);
+
+		return $respuesta;
+	}
+	/* DATOS PARA EL GRAFICO DE VENTAS EN CARTERA */
+	static public function ctrObtenerDatosGraficoVentas($table,$campos,$parametros){
+
+		$tabla = $table;
+
+		$respuesta = ModeloGeneral::mdlObtenerDatosGraficoVentas($tabla,$campos,$parametros);
+
+		return $respuesta;
+	}
+
+
+
 }

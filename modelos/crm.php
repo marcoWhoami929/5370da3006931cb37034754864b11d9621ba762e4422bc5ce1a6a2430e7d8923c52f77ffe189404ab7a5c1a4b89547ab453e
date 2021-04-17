@@ -7,9 +7,26 @@ class ModeloGeneral{
 	MOSTRAR PROSPECTOS
 	=============================================*/
 
-	static public function mdlMostrarProspectos($tabla){
+	static public function mdlMostrarProspectos($tabla,$parametros){
 
-		$stmt = Conexion::conectar()->prepare("SELECT p.*,fp.fase, op.origen,av.nombre as agente FROM $tabla as p INNER JOIN faseprospecto AS fp ON p.faseProspecto = fp.id INNER JOIN origenprospectos AS op ON p.origenProspecto = op.id INNER JOIN agentesventas AS av ON p.idAgente = av.id WHERE p.origenProspecto = op.id AND p.faseProspecto = fp.id and oportunidad = 0 and cliente = 0 and descartado = 0");
+		$stmt = Conexion::conectar()->prepare("SELECT p.*,fp.fase, op.origen,av.nombre as agente FROM $tabla as p INNER JOIN faseprospecto AS fp ON p.faseProspecto = fp.id INNER JOIN origenprospectos AS op ON p.origenProspecto = op.id INNER JOIN agentesventas AS av ON p.idAgente = av.id  $parametros");
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt-> close();
+
+		$stmt = null;
+
+	}
+	/*=============================================
+	MOSTRAR CARTERA
+	=============================================*/
+
+	static public function mdlMostrarCartera($tabla,$parametros){
+
+		$stmt = Conexion::conectar()->prepare("SELECT p.id,p.nombreCompleto,p.taller,p.estatus,p.clasificacion,p.oportunidad,p.cliente,av.nombre as agente,cf.clasificacion as nombreClasificacion FROM $tabla as p  INNER JOIN agentesventas AS av ON p.idAgente = av.id INNER JOIN clasificacion AS cf ON p.clasificacion = cf.id WHERE $parametros");
 
 		$stmt -> execute();
 
@@ -22,13 +39,12 @@ class ModeloGeneral{
 	}
 
 	/**
-	 * MOSTRAR PROSPECTOS
+	 * MOSTRAR OPORTUNIDADES
 	 */
-	
-	static public function mdlMostrarOportunidades($tabla){
 
-		$stmt = Conexion::conectar()->prepare("SELECT o.id,o.idProspecto,p.nombreCompleto as nombre,p.taller,p.correo,p.telefono,o.concepto,o.monto,o.comision,c.porcentaje,o.cierreEstimado,f.faseOportunidad as fase,op.origen,av.nombre as agente,o.fecha,o.productos FROM $tabla as o INNER JOIN prospectos AS p ON o.idProspecto = p.id INNER JOIN certezas AS c ON o.idCerteza = c.id INNER JOIN faseoportunidades as f ON o.idFaseOportunidad = f.id INNER JOIN origenprospectos as op ON op.id = p.origenProspecto INNER JOIN agentesventas as av ON o.idAgente = av.id WHERE p.id = o.idProspecto and p.descartado = 0 and p.oportunidadesCreadas != 0 and o.ventaCerrada = 0");
+	static public function mdlMostrarOportunidades($tabla,$parametros){
 
+		$stmt = Conexion::conectar()->prepare("SELECT o.id,o.idProspecto,p.nombreCompleto as nombre,p.taller,o.concepto,o.monto,o.comision,c.porcentaje,o.cierreEstimado,f.faseOportunidad as fase,av.nombre as agente,o.fecha,o.productos FROM $tabla as o INNER JOIN prospectos AS p ON o.idProspecto = p.id INNER JOIN certezas AS c ON o.idCerteza = c.id INNER JOIN faseoportunidades as f ON o.idFaseOportunidad = f.id  INNER JOIN agentesventas as av ON o.idAgente = av.id $parametros");
 
 
 		$stmt -> execute();
@@ -44,10 +60,10 @@ class ModeloGeneral{
 	/**
 	 * MOSTRAR CLIENTES
 	 */
-	
-	static public function mdlMostrarClientes($tabla){
 
-		$stmt = Conexion::conectar()->prepare("SELECT p.id,p.nombreCompleto,p.taller,p.correo,p.celular,fp.fase,op.origen,sum(vt.montoTotal) AS monto,count(vt.id) as ventasRealizadas,(sum(vt.montoTotal)/count(vt.id)) as ventaPromedio, av.nombre as agente,o.productos from $tabla as p INNER JOIN faseprospecto as fp ON p.faseProspecto = fp.id  INNER JOIN origenprospectos AS op ON p.origenProspecto = op.id INNER JOIN ventas AS vt ON p.id = vt.idOportunidad INNER JOIN agentesventas AS av ON p.idAgente = av.id INNER JOIN oportunidades AS o ON vt.idOportunidadVenta = o.id WHERE p.cliente = 1  and p.descartado != 1 and p.oportunidadesCreadas != 0 GROUP by p.id");
+	static public function mdlMostrarClientes($tabla,$parametros){
+
+		$stmt = Conexion::conectar()->prepare("SELECT p.id,p.nombreCompleto,p.taller, av.nombre as agente from prospectos as p INNER JOIN faseprospecto as fp ON p.faseProspecto = fp.id  INNER JOIN agentesventas AS av ON p.idAgente = av.id  $parametros");
 
 
 		$stmt -> execute();
@@ -63,10 +79,10 @@ class ModeloGeneral{
 	/**
 	 * MOSTRAR VENTAS
 	 */
-	
-	static public function mdlMostrarVentas($tabla){
 
-		$stmt = Conexion::conectar()->prepare("SELECT vt.id idVenta ,p.nombreCompleto,p.taller,vt.concepto,vt.fechaVenta,vt.observaciones,vt.montoTotal,vt.cerradoDia,av.nombre as agente,vt.estatusVenta,o.id as idOportunidadVenta,o.productos,vt.serie,vt.folio FROM ventas as vt INNER JOIN agentesventas as av ON vt.idAgente = av.id INNER JOIN prospectos as p ON vt.idOportunidad = p.id INNER JOIN oportunidades as o ON vt.idOportunidadVenta = o.id");
+	static public function mdlMostrarVentas($tabla,$parametros){
+
+		$stmt = Conexion::conectar()->prepare("SELECT vt.id idVenta ,p.nombreCompleto,p.taller,vt.concepto,vt.fechaVenta,vt.observaciones,vt.montoTotal,vt.cerradoDia,av.nombre as agente,vt.estatusVenta,o.id as idOportunidadVenta,o.productos,vt.serie,vt.folio FROM ventas as vt INNER JOIN agentesventas as av ON vt.idAgente = av.id INNER JOIN prospectos as p ON vt.idOportunidad = p.id INNER JOIN oportunidades as o ON vt.idOportunidadVenta = o.id $parametros");
 
 		$stmt -> execute();
 
@@ -81,7 +97,7 @@ class ModeloGeneral{
 	/**
 	 * MOSTRAR CARTERA DE CLIENTES
 	 */
-	
+
 	static public function mdlMostrarCarteraClientes($tabla){
 
 		$stmt = Conexion::conectar()->prepare("SELECT p.*,fp.fase, op.origen FROM $tabla as p LEFT OUTER JOIN faseprospecto AS fp ON p.faseProspecto = fp.id RIGHT OUTER JOIN origenprospectos AS op ON p.origenProspecto = op.id WHERE p.origenProspecto = op.id AND p.faseProspecto = fp.id");
@@ -99,7 +115,7 @@ class ModeloGeneral{
 	/**
 	 * MOSTRAR SEGUIMIENTOS
 	 */
-	
+
 	static public function mdlMostrarSeguimientos($tabla,$item,$valor){
 
 		if ($item != null) {
@@ -116,7 +132,7 @@ class ModeloGeneral{
 
 			$stmt = null;
 
-			
+
 		}else{
 
 			$stmt = Conexion::conectar()->prepare("SELECT s.*, a.nombre as agente, p.nombreCompleto as prospecto, u.accion FROM $tabla AS s RIGHT OUTER JOIN agentesventas AS a ON s.idAgente = a.id LEFT OUTER JOIN prospectos AS p ON s.idProspecto = p.id LEFT OUTER JOIN ultimocontacto AS u ON s.idAccion = u.id WHERE s.idAgente = a.id");
@@ -147,6 +163,21 @@ class ModeloGeneral{
 
 
 	}
+	/* OBTENER LOS INDICADORES */
+	static public function mdlObtenerIndicadoresGraficos($table,$campos,$parametros){
+
+		$stmt = Conexion::conectar()->prepare("SELECT $campos  FROM $table $parametros");
+
+		$stmt-> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt -> close();
+
+		$stmt = null;
+
+
+	}
 	/* OBTENER TOTALES CERTEZAS */
 	static public function mdlObtenerTotalCertezas($table,$campos,$parametros){
 
@@ -165,7 +196,7 @@ class ModeloGeneral{
 	/* OBTENER TOTALES VENTAS */
 	static public function mdlMostrarVentasTotales($tabla){
 
-		$stmt = Conexion::conectar()->prepare("SELECT vt.montoTotal,TIMESTAMPDIFF(DAY, date_format(op.fecha, '%Y-%m-%d') , date_format(vt.fechaVenta, '%Y-%m-%d')) as dias FROM $tabla as vt INNER JOIN oportunidades as op ON vt.idOportunidadVenta = op.id");
+		$stmt = Conexion::conectar()->prepare("SELECT vt.montoTotal,TIMESTAMPDIFF(DAY, date_format(op.fecha, '%Y-%m-%d') , date_format(vt.fechaVenta, '%Y-%m-%d')) as dias FROM $tabla as vt INNER JOIN oportunidades as op ON vt.idOportunidadVenta = op.id where estatusVenta != 0");
 
 		$stmt-> execute();
 
@@ -196,7 +227,7 @@ class ModeloGeneral{
 	/**
 	 * MOSTRAR EVENTOS PENDIENTES
 	 */
-	
+
 	static public function mdlMostrarEventosPendientes(){
 
 		$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id where finalizada != 1 UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id  where finalizada != 1 UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id where finalizada != 1 UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id  where finalizada != 1  UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id where finalizada != 1");
@@ -213,7 +244,7 @@ class ModeloGeneral{
 	/**
 	 * MOSTRAR EVENTOS GENERALES
 	 */
-	
+
 	static public function mdlMostrarEventosGenerales(){
 
 		$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id  UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id ");
@@ -230,12 +261,18 @@ class ModeloGeneral{
 	/**
 	 * MOSTRAR LISTA DE EVENTOS
 	 */
-	
+
 	static public function mdlMostrarListaEventos($agente){
 
 		if ($agente == null) {
 
+			/*
+
 			$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id ");
+			*/
+
+			$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,demo.productos FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id");
+
 
 		$stmt -> execute();
 
@@ -244,10 +281,14 @@ class ModeloGeneral{
 		$stmt-> close();
 
 		$stmt = null;
-			
+
 		}else{
 
+			/*
 			$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id WHERE citas.idAgente = $agente UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id WHERE llamada.idAgente = $agente   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id WHERE visitas.idAgente = $agente  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id WHERE record.idAgente = $agente    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id WHERE demo.idAgente = $agente");
+			*/
+
+			$stmt = Conexion::conectar()->prepare("SELECT citas.id,citas.asunto,citas.descripcion,citas.fecha,citas.hora,'citas' as evento,citas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `citas` as citas INNER JOIN agentesventas as ag ON citas.idAgente = ag.id INNER JOIN prospectos as p ON citas.idProspecto = p.id WHERE citas.idAgente = $agente UNION SELECT llamada.id,llamada.titulo as asunto,llamada.descripcion,llamada.fecha,llamada.hora,'llamada' as evento,llamada.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `llamada` as llamada INNER JOIN agentesventas as ag ON llamada.idAgente = ag.id INNER JOIN prospectos as p ON llamada.idProspecto = p.id WHERE llamada.idAgente = $agente   UNION SELECT visitas.id,visitas.asunto,visitas.descripcion,visitas.fecha,visitas.hora,'visitas' as evento,visitas.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `visitas` as visitas INNER JOIN agentesventas as ag ON visitas.idAgente = ag.id INNER JOIN prospectos as p ON visitas.idProspecto = p.id WHERE visitas.idAgente = $agente  UNION SELECT record.id,record.asunto,record.descripcion,record.fecha,record.hora,'recordatorios' as evento,record.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,'' as productos FROM `recordatorios` as record INNER JOIN agentesventas as ag ON record.idAgente = ag.id  INNER JOIN prospectos as p ON record.idProspecto = p.id WHERE record.idAgente = $agente    UNION SELECT demo.id,demo.asunto,demo.descripcion,demo.fecha,demo.hora,'demostraciones' as evento,demo.finalizada as estatus,ag.nombre as agente,p.nombreCompleto as prospecto,demo.productos as productos FROM `demostraciones` as demo INNER JOIN agentesventas as ag ON demo.idAgente = ag.id INNER JOIN prospectos as p ON demo.idProspecto = p.id WHERE demo.idAgente = $agente");
 
 		$stmt -> execute();
 
@@ -443,10 +484,10 @@ class ModeloGeneral{
 		if($stmt -> execute()){
 
 			return "ok";
-		
+
 		}else{
 
-			return "error";	
+			return "error";
 
 		}
 
@@ -455,16 +496,101 @@ class ModeloGeneral{
 		$stmt = null;
 
 	}
+	/*=============================================
+	OBTENER OPORTUNIDADES CREADAS
+	=============================================*/
 
-	/** CAMBIOS 18/09/2020*/
-	static public function mdlShowViews($tabla){
+	static public function mdlObtenerOportunidadesCreadas($tabla,$item,$valor){
 
-		$stmt = Conexion::conectar()->prepare("SHOW COLUMNS FROM $tabla FROM crmapp");
+		$stmt = Conexion::conectar()->prepare("SELECT count(id) as cantidad,sum(monto) as monto FROM `oportunidades` WHERE $item = :$item ");
+
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
 
 		$stmt -> execute();
 
-		return $stmt -> fetchAll();
+		return $stmt -> fetch();
+
+
 	}
+	/*=============================================
+	OBTENER VENTAS CREADAS
+	=============================================*/
+
+	static public function mdlObtenerVentasCreadas($tabla,$item,$valor){
+
+		$stmt = Conexion::conectar()->prepare("SELECT  count(id) as cantidad,sum(montoTotal) as monto FROM `ventas` WHERE $item = :$item ");
+
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+
+
+	}
+	/*=============================================
+	OBTENER FECHA ULTIMA VENTA GENERADA
+	=============================================*/
+
+	static public function mdlUltimaVentaGenerada($tabla,$item,$valor){
+
+		$stmt = Conexion::conectar()->prepare("SELECT max(fechaVenta) as fecha FROM `ventas` WHERE $item = :$item ");
+
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+
+
+	}
+	/*=============================================
+	OBTENER DATOS DE AGENTE
+	=============================================*/
+
+	static public function mdlMostrarDatosAgentes($tabla,$campos){
+
+		$stmt = Conexion::conectar()->prepare("SELECT $campos FROM $tabla");
+
+		$stmt -> execute();
+
+		return $stmt->fetchAll();
+
+
+	}
+
+	/*=============================================
+	CONTAR VENTAS
+	=============================================*/
+	static public function mdlContarVentas($tabla,$item,$valor){
+
+		$stmt = Conexion::conectar()->prepare("SELECT count(id) as contado FROM $tabla WHERE $item = :$item ");
+
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+
+
+	}
+	/* DATOS PARA EL GRAFICO DE VENTAS EN CARTERA */
+	static public function mdlObtenerDatosGraficoVentas($tabla,$campos,$parametros){
+
+		$stmt = Conexion::conectar()->prepare("SELECT $campos FROM $tabla $parametros");
+
+		$stmt-> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt -> close();
+
+		$stmt = null;
+
+
+	}
+
+
 
 
 }
