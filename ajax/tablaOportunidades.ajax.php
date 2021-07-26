@@ -15,6 +15,7 @@ class TablaOportunidades{
             $parametros = "WHERE av.id = ".$idAgente." AND o.fecha BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%' AND p.id = o.idProspecto and p.descartado = 0 " ;
         }else if ($idAgente == 0 && $fechaInicial != "" && $fechaFinal != "") {
             $parametros = "WHERE o.fecha BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%' AND p.id = o.idProspecto and p.descartado = 0";
+            
         }else if ($idAgente != 0) {
             $parametros = "WHERE av.id = ".$idAgente;
         }else{

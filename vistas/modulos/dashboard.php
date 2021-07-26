@@ -102,8 +102,8 @@
                                        <select class="form-control" id="agente" name="agente" onchange="this.form.submit()">
 
                                           <option value="0">Todos los Agentes</option>
+                                          <option value="1">Rocio Martinez Morales</option>
                                           <option value="2">Orlando Raúl Briones Aguirre</option>
-                                          <option value="3">Gerónimo Bautista Escudero</option>
                                           <option value="5">San Manuel</option>
                                           <option value="6">Reforma</option>
                                           <option value="7">Capu</option>
@@ -111,7 +111,10 @@
                                           <option value="9">Las Torres</option>
                                           <option value="11">Ivan Herrera</option>
                                           <option value="12">Jesús García</option>
-					  <option value="13">Mario Hernández</option>
+					  					  <option value="13">Mario Hernández</option>
+					  					  <option value="14">Gabriel Andrade</option>
+					  					  <option value="16">Jose Luis Texis</option>
+					  					  <option value="17">Marcela</option>
 
                                       </select>
                                     </div>

@@ -1,0 +1,8 @@
+/****ESTILOS PARA LAS TABLAS*****/
+.tableColor{
+	border: 2px solid #008B8B;
+}
+.headColor{
+	background:#008B8B;
+	color: white
+}

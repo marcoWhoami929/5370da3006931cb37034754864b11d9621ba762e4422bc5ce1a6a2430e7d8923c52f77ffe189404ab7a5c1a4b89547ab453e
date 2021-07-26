@@ -34,10 +34,10 @@ class TablaDirectorio{
 
       $datosJson   .= '[
               "'.$directorio[$i]["id"].'",
-              "<strong>'.$directorio[$i]["nombreCompleto"].'</strong><br><em>'.$directorio[$i]["taller"].'</em>",
-              "<strong>'.$correo.'</strong>",
-              "'.$telefono.'<br>'.$celular.'",
-              "'.$directorio[$i]["domicilio"].'",
+              "<strong>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $directorio[$i]["nombreCompleto"]).'</strong><br><em>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $directorio[$i]["taller"]).'</em>",
+              "<strong>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $correo).'</strong>",
+              "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $telefono).'<br>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $celular).'",
+              "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], str_replace('"', '', $directorio[$i]["domicilio"])).'",
               "'.$directorio[$i]["agente"].'",
               "'.$estado.'"
 

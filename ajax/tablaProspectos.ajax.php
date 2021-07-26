@@ -8,6 +8,22 @@ class TablaProspectos{
 
 	public function mostrarTablas(){
 		$idAgente = $_GET["agente"];
+		/*
+			$fechaInicial = $_GET["fechaInicial"];
+        $fechaFinal = $_GET["fechaFin"];
+
+         if ($idAgente != 0 && $fechaInicial != "" && $fechaFinal != "") {
+            $parametros = "WHERE p.idAgente= ".$idAgente." AND o.fecha BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%'  AND p.origenProspecto = op.id AND p.faseProspecto = fp.id and oportunidad = 0 and cliente = 0 and descartado = 0 ";
+        }else if ($idAgente == 0 && $fechaInicial != "" && $fechaFinal != "") {
+            $parametros = "WHERE o.fecha BETWEEN '".$fechaInicial."%' AND '".$fechaFinal."%'  AND p.origenProspecto = op.id AND p.faseProspecto = fp.id and oportunidad = 0 and cliente = 0 and descartado = 0 ";
+        }else if ($idAgente != 0) {
+            $parametros = "WHERE p.idAgente= ".$idAgente." AND p.origenProspecto = op.id AND p.faseProspecto = fp.id and oportunidad = 0 and cliente = 0 and descartado = 0";
+        }else{
+            $parametros = "WHERE p.origenProspecto = op.id AND p.faseProspecto = fp.id and oportunidad = 0 and cliente = 0 and descartado = 0";
+        }
+
+		*/
+		 
 
         if ($idAgente != 0 ) {
             $parametros = "WHERE p.idAgente= ".$idAgente." AND p.origenProspecto = op.id AND p.faseProspecto = fp.id and oportunidad = 0 and cliente = 0 and descartado = 0" ;

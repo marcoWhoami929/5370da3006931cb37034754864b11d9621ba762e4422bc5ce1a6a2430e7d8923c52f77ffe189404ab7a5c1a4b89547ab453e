@@ -4,14 +4,27 @@ TABLA PROSPECTOS
 $(document).ready(function(){
 
   var agenteSeleccion = $("#agenteSeleccionado").val();
+  var fechaInicial = $("#fechaInicial").val();
+  var fechaFin = $("#fechaFin").val();
 
   if (agenteSeleccion != "") {
     var agenteElegido = agenteSeleccion;
   } else{
     var agenteElegido = "";
   }
+  if (fechaInicial != "") {
+    var fechaInicio = fechaInicial;
+  } else{
+    var fechaInicio = "";
+  }
+  if (fechaFin != "") {
+    var fechaFinal = fechaFin;
+  } else{
+    var fechaFinal = "";
+  }
 
 tablaProspectos = $(".tablaProspectos").DataTable({
+   //"ajax":"ajax/tablaProspectos.ajax.php?agente="+agenteElegido+"&fechaInicial="+fechaInicio+"&fechaFin="+fechaFinal,
    "ajax":"ajax/tablaProspectos.ajax.php?agente="+agenteElegido,
    "deferRender": true,
    "retrieve": true,
