@@ -50,8 +50,8 @@ class TablaDescartados{
 			$datosJson	 .= '[
 				      "'.$descartados[$i]["id"].'",
 				      "<strong>'.$descartados[$i]["nombreCompleto"].'</strong><br>'.$descartados[$i]["taller"].'",
-				      "<strong>'.$descartados[$i]["correo"].'</strong><br>'.$descartados[$i]["telefono"].'",
-				      "'.$descartados[$i]["motivo"].'",
+				      "<strong>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $descartados[$i]["correo"]).'</strong><br>'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $descartados[$i]["telefono"]).'",
+				      "'.preg_replace(['/\s+/','/^\s|\s$/'],[' ',''], $descartados[$i]["motivo"]).'",
 				      "'.$descartados[$i]["origen"].'",
 				      "<strong>'.$transcurrido.'</strong>'.$seguimiento.'",
 				      "'.$descartados[$i]["agente"].'",

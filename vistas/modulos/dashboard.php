@@ -97,7 +97,7 @@
                               <form action="dashboard" method="GET" >
                                 <div class="col-lg-12">
                                   <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-md-2 col-sm-2">
                                       <span>Agente</span>
                                        <select class="form-control" id="agente" name="agente" onchange="this.form.submit()">
 
@@ -112,35 +112,35 @@
                                           <option value="11">Ivan Herrera</option>
                                           <option value="12">Jesús García</option>
 					  					  <option value="13">Mario Hernández</option>
-					  					  <option value="14">Gabriel Andrade</option>
-					  					  <option value="16">Jose Luis Texis</option>
-					  					  <option value="17">Marcela</option>
+					  					  <option value="17">Marcela Vega</option>
 
                                       </select>
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="col-lg-2 col-md-2 col-sm-2">
                                         <span>Canal</span>
                                       <select class="form-control" id="canal" name="canal" onchange="this.form.submit()">
                                          <option value="0">Todos</option>
                                          <option value="1">Conversion SWAM</option>
                                          <option value="2">Clientes Corporativos</option>
+                                         <option value="3">Clientes Tiendas</option>
                                          <option value="4">Clientes Distribucion</option>
 
 
                                      </select>
                                    </div>
                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                       <span>Inicio</span>
-                                       <input type="date" id="inicial" name="inicial" onchange="this.form.submit();setValue();" >
+                                        <span>Inicio</span>
+                                       <input class="form-control" type="date" id="inicial" name="inicial"  >
                                   </div>
                                   <div class="col-lg-3 col-md-3 col-sm-3">
                                       <span>Final</span>
-                                      <input type="date" id="final" name="final" onchange="this.form.submit();setValue();">
+                                      <input class="form-control" type="date" id="final" name="final" >
+                                 </div>
+                                 <div class="col-lg-2 col-md-2 col-sm-2">
+                                     <button class=" form-control btn btn-success" type="button" onclick="this.form.submit();setValue();">Buscar</button>
                                  </div>
                                   </div>
                                 </div>
-
-
 
                               </form>
 

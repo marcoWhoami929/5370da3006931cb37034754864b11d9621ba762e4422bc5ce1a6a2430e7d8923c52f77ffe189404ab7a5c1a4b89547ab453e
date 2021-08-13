@@ -1,33 +1,4 @@
-<?php
-    require_once("controladores/crm.php");
-    require_once("modelos/crm.php");
 
-     $url =  'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-
-                $parametros = parse_url($url);
-
-
-                if (isset($parametros['query'])) {
-                     parse_str($parametros['query'], $parametro);
-                     $idAgente = $parametro['agente'];
-                     $canal = $parametro['canal'];
-                     $inicial = $parametro['inicial'];
-                     $final = $parametro['final'];
-                     if ($idAgente == 0) {
-                         $agente = null;
-                         $valor = 0;
-                     }else{
-                         $agente =  $idAgente;
-                         $valor = $idAgente;
-                     }
-
-                }else{
-                     $valor = 0;
-                     $agente = null;
-
-                }
-
-?>
 <div class="preloader">
     <div class="lds-ripple">
         <div class="lds-pos"></div>
@@ -61,101 +32,89 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-md-flex align-items-center">
-                                <div>
-                                    <h4 class="card-title">Clientes</h4>
-                                    <h5 class="card-subtitle"></h5>
-                                    <input type="hidden" id="agenteSeleccionado" value="<?php echo $valor ?>">
-                                    <input type="hidden" id="fechaInicial" value="<?php echo $inicial ?>">
-                                    <input type="hidden" id="fechaFin" value="<?php echo $final ?>">
-                                    <form action="clientes" method="GET" >
-                                        <div class="col-lg-12">
-                                          <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <span>Agente</span>
-                                                <select class="form-control" id="agente" name="agente" onchange="this.form.submit()">
+                                <div class="d-md-flex align-items-center">
 
-                                                    <option value="0">Todos los Agentes</option>
-                                                      <option value="1">Rocio Martinez Morales</option>
-                                                      <option value="2">Orlando Raúl Briones Aguirre</option>
-                                                      <option value="5">San Manuel</option>
-                                                      <option value="6">Reforma</option>
-                                                      <option value="7">Capu</option>
-                                                      <option value="8">Santiago</option>
-                                                      <option value="9">Las Torres</option>
-                                                      <option value="11">Ivan Herrera</option>
-                                                      <option value="12">Jesús García</option>
-                                                      <option value="13">Mario Hernández</option>
-                                                      <option value="14">Gabriel Andrade</option>
-                                                      <option value="16">Jose Luis Texis</option>
-                                                      <option value="17">Marcela</option>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2  col-sm-2">
+                                                <label class="">Agente</label>
+                                                <select class="form-control" id="idAgente" onchange="cargarClientes(1);">
 
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="col-lg-4 col-md-4 col-sm-4" style="display: none">
-                                                <span>Inicio</span>
-                                                <input type="date" class="form-control" id="inicial" name="inicial"  >
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4" style="display: none">
-                                                <span>Final</span>
-                                                <input type="date" class="form-control" id="final" name="final">
-                                            </div>
+                                                 <option value="">Todos los Agentes</option>
+                                                 <option value="1">Rocio Martinez Morales</option>
+                                                 <option value="2">Orlando Raúl Briones Aguirre</option>
+                                                 <option value="5">San Manuel</option>
+                                                 <option value="6">Reforma</option>
+                                                 <option value="7">Capu</option>
+                                                 <option value="8">Santiago</option>
+                                                 <option value="9">Las Torres</option>
+                                                 <option value="11">Ivan Herrera</option>
+                                                 <option value="12">Jesús García</option>
+                                                 <option value="13">Mario Hernández</option>
+                                                 <option value="17">Marcela Vega</option>
 
+                                             </select>
+                                         </div>
+                                         
+                                         <div class="col-lg-2 col-md-2  col-sm-2">
+                                            <label class="">Fecha Inicial</label>
+                                            <input type="date" class="form-control" id="fechaInicial">
+                                           
                                           </div>
+                                          <div class="col-lg-2 col-md-2  col-sm-2">
+                                            <label class="">Fecha Final</label>
+                                            <input type="date" class="form-control" id="fechaFinal">
+                                           
+                                          </div>
+                                            
+
+
+                                     <div class="col-lg-2 col-md-2  col-sm-2">
+                                        <label class="">Mostrar</label>
+                                        <select class="form-control" id="per_page" onchange="cargarClientes(1);">
+                                            <option>5</option>
+                                            <option>10</option>
+                                            <option selected="">15</option>
+                                            <option>20</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4  col-sm-4">
+                                        <div class="row">
+                                            <div class="col-lg-9 col-md-9 col-sm-9">
+                                                <label class="">Buscar por Nombre</label>
+                                                <input type="text" class="form-control" id="nombre">
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <button type="button" class="btn btn-danger btn-rounded btn-icon" onclick="cargarClientes(1);">
+                                                    <i class="ti-search"></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                        
-                                    </form>
-                                    <br>
-                                    <?php 
-                                    echo "<a href='vistas/modulos/reportes.php?clientes=prospectos&agente=".$valor."' ><button type='button' class='btn btn-success'>
-                                        <i class='fas fa-file-excel fa-2x'></i></button>
-                                    </a>";
-                                     ?>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2">
+                                        <button type="button" class="btn btn-danger  btn-icon" id="btnDescargarReporteCartera" onclick="descargarReporteClientes();"><i class="fas fa-file-excel" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div class="col-md-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p class="card-title mb-0"></p>
+                                                <div class="datosClientes">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 table-responsive">
-
-                    <table class="table table-bordered table-striped tablaClientes tableColor" width="100%" id="clientes">
-
-                        <thead class="headColor">
-
-                           <tr>
-                             <th style="border:none">#</th>
-                             <th style="border:none">Nombre/Taller</th>
-                             <th style="border:none">Ticket Promedio</th>
-                             <th style="border:none">Ultimo Contacto</th>
-                             <th style="border:none">Ejecutivo</th>
-
-                            </tr>
-
-                        </thead>
-
-                    </table>
-                </div>
-
-            </div>
 
         </div>
     </div>
 </div>
- <script>
-
-
-    var agenteElegido =  $("#agenteSeleccionado").val();
-    document.ready = document.getElementById("agente").value = agenteElegido;
-
-    var fechaInicial =  $("#fechaInicial").val();
-    document.ready = document.getElementById("inicial").value = fechaInicial;
-    var fechaFin =  $("#fechaFin").val();
-    document.ready = document.getElementById("final").value = fechaFin;
-
-
-
-</script>

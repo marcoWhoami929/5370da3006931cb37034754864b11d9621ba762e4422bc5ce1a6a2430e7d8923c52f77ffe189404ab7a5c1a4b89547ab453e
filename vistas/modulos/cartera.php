@@ -1,33 +1,4 @@
-<?php
 
-    require_once("controladores/crm.php");
-    require_once("modelos/crm.php");
-
-     $url =  'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-
-                $parametros = parse_url($url);
-
-
-                if (isset($parametros['query'])) {
-                     parse_str($parametros['query'], $parametro);
-                     $idAgente = $parametro['agente'];
-                     $nombreAgenteElegido = $parametro['nameAgente'];
-
-                     if ($idAgente == 0) {
-                         $agente = null;
-                         $valor = 0;
-                     }else{
-                         $agente =  $idAgente;
-                         $valor = $idAgente;
-                     }
-
-                }else{
-                     $valor = 0;
-                     $agente = null;
-
-                }
-
-?>
 <div class="preloader">
     <div class="lds-ripple">
         <div class="lds-pos"></div>
@@ -40,127 +11,133 @@
     <div class="page-wrapper">
 
        <div class="page-breadcrumb">
-            <div class="row">
-                <div class="col-12 d-flex no-block align-items-center">
-                    <h4 class="page-title">Cartera</h4>
-                    <div class="ml-auto text-right">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="dashboard">Inicio</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Cartera</li>
-                            </ol>
-                        </nav>
-                    </div>
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Cartera</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="dashboard">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cartera</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="container-fluid">
+    <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-md-flex align-items-center">
-                                <div>
-                                    <h4 class="card-title">Cartera General</h4>
-                                    <h5 class="card-subtitle"></h5>
-                                     <input type="hidden" id="agenteElegido" value="<?php echo $valor ?>">
-                                        <input type="hidden" id="nameAgente" >
-                                        <form action="cartera" method="GET">
-                                          <!--<div class="col-md-3" style="float: left;">
-                                            <?php
-                                              /*if (isset($_POST["fechaIni"])) {
-                                                echo '<input type="date" id="fechaIni" name="fechaIni" class="form-control" placeholder="Fecha" value="'.date('Y-m-d', strtotime($_POST["fechaIni"])).'" required>';
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-md-flex align-items-center">
 
-                                                echo '<input type="date" id="fechaFin" name="fechaFin" class="form-control" placeholder="Fecha" value="'.date('Y-m-d', strtotime($_POST["fechaFin"])).'" required>';
-                                                           
-                                              }else {
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2  col-sm-2">
+                                        <label class="">Agente</label>
+                                        <select class="form-control" id="idAgente" onchange="cargarCartera(1);">
 
-                                               echo '<input type="date" id="fechaIni" name="fechaIni" class="form-control" placeholder="Fecha" required>';
+                                           <option value="">Todos los Agentes</option>
+                                           <option value="1">Rocio Martinez Morales</option>
+                                           <option value="2">Orlando Raúl Briones Aguirre</option>
+                                           <option value="5">San Manuel</option>
+                                           <option value="6">Reforma</option>
+                                           <option value="7">Capu</option>
+                                           <option value="8">Santiago</option>
+                                           <option value="9">Las Torres</option>
+                                           <option value="11">Ivan Herrera</option>
+                                           <option value="12">Jesús García</option>
+                                           <option value="13">Mario Hernández</option>
+                                           <option value="17">Marcela Vega</option>
 
-                                                echo '<input type="date" id="fechaFin" name="fechaFin" class="form-control" placeholder="Fecha" required>';
+                                       </select>
+                                   </div>
+                                   <div class="col-lg-2 col-md-2  col-sm-2">
+                                    <label class="">Clasificacion</label>
+                                    <select class="form-control" id="clasificacion" onchange="cargarCartera(1);">
 
-                                            }*/
+                                       <option value="">Todo</option>
+                                       <option value="1">Conversion Swam</option>
+                                       <option value="2">Clientes Corporativos</option>
+                                       <option value="3">Clientes Tiendas</option>
+                                       <option value="4">Clientes Distribucion</option>
 
-                                            ?>
+                                   </select>
+                               </div>
+                               <div class="col-lg-2 col-md-2  col-sm-2">
+                                <label class="">Fase</label>
+                                <select class="form-control" id="fase" onchange="cargarCartera(1);">
 
-                                          </div>-->
-                                              <div class="col-lg-8 col-md-8 col-sm-8">
-                                                <span>Agente</span>
-                                                <select class="form-control" id="agente" name="agente" onchange="this.form.submit()">
+                                   <option value="">Todos</option>
+                                   <option value="1">Prospecto</option>
+                                   <option value="2">Oportunidad</option>
+                                   <option value="3">Cliente</option>
 
-                                                      <option value="0">Todos los Agentes</option>
-                                                      <option value="1">Rocio Martinez Morales</option>
-                                                      <option value="2">Orlando Raúl Briones Aguirre</option>
-                                                      <option value="5">San Manuel</option>
-                                                      <option value="6">Reforma</option>
-                                                      <option value="7">Capu</option>
-                                                      <option value="8">Santiago</option>
-                                                      <option value="9">Las Torres</option>
-                                                      <option value="11">Ivan Herrera</option>
-                                                      <option value="12">Jesús García</option>
-                                                      <option value="13">Mario Hernández</option>
-                                                      <option value="14">Gabriel Andrade</option>
-                                                      <option value="16">Jose Luis Texis</option>
-                                                      <option value="17">Marcela</option>
-                                                </select>
-                                            </div>
-                                        </form>
 
-                                        <?php
-                                          if (isset($_POST["agenteElegido"])) {
-                                            echo '<a href="vistas/modulos/reportes.php?cartera=prospectos&agenteElegido='.$valor.'">
+                               </select>
+                           </div>
+                           <div class="col-lg-2 col-md-2  col-sm-2">
+                            <label class="">Tipo cliente</label>
+                            <select class="form-control" id="tipo" onchange="cargarCartera(1);">
 
-                                           <button type="button" class="btn btn-success">
-                                        <i class="fas fa-file-excel fa-2x"></i></button>
+                               <option value="">Todos</option>
+                               <option value="1">Prospecto (Mayor 80%)</option>
+                               <option value="2">Cliente Nuevo</option>
+                               <option value="3">Cliente Mantenimiento</option>
+                               <option value="4">Recuperacion</option>
+                               <option value="5">Conversion SWAM</option>
 
-                                          </a>';
-                                          }else{
-                                            echo '<a href="vistas/modulos/reportes.php?cartera=prospectos&agenteElegido='.$valor.'">
 
-                                               <button type="button" class="btn btn-success">
-                                        <i class="fas fa-file-excel fa-2x"></i></button>
+                           </select>
+                       </div>
+                       <div class="col-lg-2 col-md-2  col-sm-2">
+                        <label class="">Mostrar</label>
+                        <select class="form-control" id="per_page" onchange="cargarCartera(1);">
+                            <option>5</option>
+                            <option>10</option>
+                            <option selected="">15</option>
+                            <option>20</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-4  col-sm-4">
+                        <div class="row">
+                            <div class="col-lg-9 col-md-9 col-sm-9">
+                                <label class="">Buscar por Nombre</label>
+                                <input type="text" class="form-control" id="nombre">
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <button type="button" class="btn btn-danger btn-rounded btn-icon" onclick="cargarCartera(1);">
+                                    <i class="ti-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-danger  btn-icon" id="btnDescargarReporteCartera" onclick="descargarReporteCartera();"><i class="fas fa-file-excel" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title mb-0"></p>
+                                <div class="datosCartera">
 
-                                              </a>';
-                                          } ?>
-                                     
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 table-responsive">
 
-                    <table class="table table-bordered table-striped tablaCartera tableColor" width="100%" id="cartera">
+        </div>
+    </div>
+</div>
+</div>
+</div>
 
-                        <thead class="headColor">
-
-                           <tr>
-                             <th style="border:none">#</th>
-                             <th style="border:none">Nombre/Taller</th>
-                             <th style="border:none">Clasificación</th>
-                             <th style="border:none">Fase</th>
-                             <th style="border:none">Ultimo Contacto</th>
-                             <th style="border:none"># Opor</th>
-                             <th style="border:none">$ Opor</th>
-                             <th style="border:none"># Ventas</th>
-                             <th style="border:none">$ Ventas</th>
-                             <th style="border:none">Grafico</th>
-                             <th style="border:none">Ultima Venta</th>
-                             <th style="border:none">Ejecutivo</th>
-
-                             <th style="border:none">Estatus</th>
-                            </tr>
-
-                        </thead>
-
-                    </table>
-                </div>
-
-            </div>
             <!--=====================================
             MODAL VISTA GRAFICO
             ======================================-->
@@ -169,7 +146,7 @@
                     <div class="modal-content">
 
                         <form role="form" method="post" enctype="multipart/form-data">
-                        <!-- CABEZA DEL MODAL-->
+                            <!-- CABEZA DEL MODAL-->
                             <div class="modal-header" style="background:#1F262D; color:white">
 
                                 <h4 class="modal-title">Ventas</h4>
@@ -207,16 +184,7 @@
         </div>
     </div>
 </div>
-<script>
 
-
-    var agenteElegido =  $("#agenteElegido").val();
-    document.ready = document.getElementById("agente").value = agenteElegido;
-
-    var nameAgente = $('#agente option:selected').attr('nombreAgente');
-    document.ready = document.getElementById("nameAgente").value = nameAgente;
-
-</script>
 <style type="text/css" media="screen">
 #ventasProspectos {
     height: 400px;

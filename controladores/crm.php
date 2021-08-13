@@ -13,16 +13,6 @@ class ControladorGeneral{
 
 		return $respuesta;
 	}
-	/**
-	 * MOSTAR CARTERA
-	 */
-	static public function ctrMostrarCartera($parametros){
-		$tabla = "prospectos";
-
-		$respuesta = ModeloGeneral::mdlMostrarCartera($tabla,$parametros);
-
-		return $respuesta;
-	}
 
 	/**
 	 * MOSTRAR OPORTUNIDADES
@@ -335,7 +325,18 @@ class ControladorGeneral{
 
 		return $respuesta;
 	}
+	/*
+	MOSTRAR ACCIONES SEGUIMIENTOS
+	 */
+	static public function ctrMostrarAccionesSeguimientos(){
 
+		$tabla = "accionesseguimientos";
+
+		$respuesta = ModeloGeneral::mdlMostrarAccionesSeguimientos($tabla);
+
+		return $respuesta;
+
+	}
 
 
 }

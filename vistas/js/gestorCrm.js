@@ -1,275 +1,3 @@
-/*=============================================
-TABLA PROSPECTOS
-=============================================*/
-$(document).ready(function(){
-
-  var agenteSeleccion = $("#agenteSeleccionado").val();
-  var fechaInicial = $("#fechaInicial").val();
-  var fechaFin = $("#fechaFin").val();
-
-  if (agenteSeleccion != "") {
-    var agenteElegido = agenteSeleccion;
-  } else{
-    var agenteElegido = "";
-  }
-  if (fechaInicial != "") {
-    var fechaInicio = fechaInicial;
-  } else{
-    var fechaInicio = "";
-  }
-  if (fechaFin != "") {
-    var fechaFinal = fechaFin;
-  } else{
-    var fechaFinal = "";
-  }
-
-tablaProspectos = $(".tablaProspectos").DataTable({
-   //"ajax":"ajax/tablaProspectos.ajax.php?agente="+agenteElegido+"&fechaInicial="+fechaInicio+"&fechaFin="+fechaFinal,
-   "ajax":"ajax/tablaProspectos.ajax.php?agente="+agenteElegido,
-   "deferRender": true,
-   "retrieve": true,
-   "processing": true,
-   "language": {
-
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
-
-   }
-
-});
-});
-/*=============================================
-TABLA CARTERA
-=============================================*/
-$(document).ready(function(){
-  var agenteSeleccion = $("#agenteElegido").val();
-
-  if (agenteSeleccion != "") {
-    var agenteElegido = agenteSeleccion;
-  } else{
-    var agenteElegido = "";
-  }
-  tablaCartera = $(".tablaCartera").DataTable({
-   "ajax":"ajax/tablaCartera.ajax.php?agenteElegido="+agenteElegido,
-   "deferRender": true,
-   "retrieve": true,
-   "processing": true,
-   "language": {
-
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
-
-   }
-
-});
-
-});
-/*=============================================
-TABLA OPORTUNIDADES
-=============================================*/
-$(document).ready(function(){
-
-  var agenteSeleccion = $("#agenteSeleccionado").val();
-  var fechaInicial = $("#fechaInicial").val();
-  var fechaFin = $("#fechaFin").val();
-
-  if (agenteSeleccion != "") {
-    var agenteElegido = agenteSeleccion;
-  } else{
-    var agenteElegido = "";
-  }
-  if (fechaInicial != "") {
-    var fechaInicio = fechaInicial;
-  } else{
-    var fechaInicio = "";
-  }
-  if (fechaFin != "") {
-    var fechaFinal = fechaFin;
-  } else{
-    var fechaFinal = "";
-  }
-
-  tablaOportunidades = $(".tablaOportunidades").DataTable({
-   "ajax":"ajax/tablaOportunidades.ajax.php?idAgente="+agenteElegido+"&fechaInicial="+fechaInicio+"&fechaFin="+fechaFinal,
-   "deferRender": true,
-   "retrieve": true,
-   "processing": true,
-   "language": {
-
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
-
-   }
-
-});
-});
-
-/*=============================================
-TABLA CLIENTES
-=============================================*/
-$(document).ready(function(){
-
-  var agenteSeleccion = $("#agenteSeleccionado").val();
-
-  if (agenteSeleccion != "") {
-    var agenteElegido = agenteSeleccion;
-  } else{
-    var agenteElegido = "";
-  }
-
-  tablaClientes = $(".tablaClientes").DataTable({
-   "ajax":"ajax/tablaClientes.ajax.php?agente="+agenteElegido,
-   "deferRender": true,
-   "retrieve": true,
-   "processing": true,
-   "language": {
-
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
-
-   }
-
-});
-});
-/*=============================================
-TABLA VENTAS
-=============================================*/
-$(document).ready(function(){
-
-  var agenteSeleccion = $("#agenteSeleccionado").val();
-  var fechaInicial = $("#fechaInicial").val();
-  var fechaFin = $("#fechaFin").val();
-
-  if (agenteSeleccion != "") {
-    var agenteElegido = agenteSeleccion;
-  } else{
-    var agenteElegido = "";
-  }
-  if (fechaInicial != "") {
-    var fechaInicio = fechaInicial;
-  } else{
-    var fechaInicio = "";
-  }
-  if (fechaFin != "") {
-    var fechaFinal = fechaFin;
-  } else{
-    var fechaFinal = "";
-  }
-
-  tablaVentas = $(".tablaVentas").DataTable({
-   "ajax":"ajax/tablaVentasPorPeriodo.ajax.php?idAgente="+agenteElegido+"&fechaInicial="+fechaInicio+"&fechaFin="+fechaFinal,
-   "deferRender": true,
-   "retrieve": true,
-   "processing": true,
-   "language": {
-
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
-
-   }
-
-});
-});
 
 /*=============================================
 TABLA PENDIENTES
@@ -308,43 +36,7 @@ tablaPendientes = $(".tablaPendientes").DataTable({
    }
 
 });
-/*=============================================
-TABLA EVENTOS
-=============================================*/
 
-tablaEventos = $(".tablaEventos").DataTable({
-   "ajax":"ajax/tablaEventos.ajax.php",
-   "deferRender": true,
-   "retrieve": true,
-   "processing": true,
-   "language": {
-
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
-
-   }
-
-});
 /**
  * MOSTRAR TABLAS DE EVENTOS DEPENDIENDO
  * DEL TIPO DE SELECCION EN EL MENU
@@ -662,45 +354,9 @@ tablaDescartados = $(".tablaDescartados").DataTable({
    }
 
 });
+
 /*=============================================
-TABLA BITACORA
-=============================================*/
-
-tablaBitacora = $(".tablaBitacora").DataTable({
-   "ajax":"ajax/tablaBitacora.ajax.php",
-   "deferRender": true,
-   "retrieve": true,
-   "processing": true,
-   "language": {
-
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-      "sFirst":    "Primero",
-      "sLast":     "Último",
-      "sNext":     "Siguiente",
-      "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    }
-
-   }
-
-});
-/*=============================================
-TABLA BITACORA
+TABLA HISTORIAL
 =============================================*/
 
 tablaHistorial = $(".tablaHistorial").DataTable({
@@ -779,10 +435,9 @@ tablaDirectorio = $(".tablaDirectorio").DataTable({
 MOSTRAR LA LISTA DE PRODUCTOS EN OPORTUNIDADES Y VENTAS
  */
 
+function visualizarProductos(idOportunidad){
 
-$(".tablaOportunidades").on("click",".btnVisualizarProductos",function(){
-
-    var idOportunidad = $(this).attr("idOportunidad");
+   var idOportunidad = idOportunidad;
     var tablaOportunidad = "oportunidades";
 
     var datos = new FormData();
@@ -879,109 +534,9 @@ $(".tablaOportunidades").on("click",".btnVisualizarProductos",function(){
   })
 
 
-
-});
-$(".tablaVentas").on("click",".btnVisualizarProductos",function(){
-
-    var idOportunidad = $(this).attr("idOportunidad");
-    var tablaOportunidad = "oportunidades";
-
-    var datos = new FormData();
-    datos.append('idOportunidad',idOportunidad);
-    datos.append('tablaOportunidad',tablaOportunidad);
-    $.ajax({
-
-    url:"ajax/functions.ajax.php",
-    method: "POST",
-    data: datos,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-    success: function(respuesta){
+}
 
 
-            var montoTotal = respuesta["monto"];
-
-            var monto = document.getElementById("montoTotalOportunidad");
-            monto.innerHTML = '$'+' '+montoTotal;
-
-            monto.setAttribute("style", "font-size:19px;font-weight:bold;color:#008B8B");
-
-
-            var listaCabeceras = ['Codigo','Descripcion','Cantidad','Precio'];
-
-            body = document.getElementById("tablaDetalleProductos");
-
-            thead = document.createElement("thead");
-            thead.setAttribute('style','background:#008B8B;color: white');
-
-            theadTr = document.createElement("tr");
-
-            for (var h = 0; h < listaCabeceras.length; h++) {
-
-                var celdaThead = document.createElement("th");
-                var textoCeldaThead = document.createTextNode(listaCabeceras[h]);
-                celdaThead.appendChild(textoCeldaThead);
-                theadTr.appendChild(celdaThead);
-
-            }
-
-            thead.appendChild(theadTr);
-
-            tblBody = document.createElement("tbody");
-
-            var  codigos = respuesta["codigos"];
-            var  codigos = codigos.split(',');
-
-            var  productos = respuesta["productos"];
-            var  productos = productos.split(',');
-
-            var  cantidades = respuesta["cantidades"];
-            var  cantidades = cantidades.split(',');
-
-            var  precios = respuesta["precios"];
-            var  precios = precios.split(',');
-            // Crea las celdas
-            for (var i = 0; i <  codigos.length; i++) {
-              // Crea las hileras de la tabla
-              var hilera = document.createElement("tr");
-
-                  var celda = document.createElement("td");
-                  var textoCelda = document.createTextNode(codigos[i]);
-                  celda.appendChild(textoCelda);
-                  hilera.appendChild(celda);
-                  var celda = document.createElement("td");
-                  var textoCelda = document.createTextNode(productos[i]);
-                  celda.appendChild(textoCelda);
-                  hilera.appendChild(celda);
-                   var celda = document.createElement("td");
-                  var textoCelda = document.createTextNode(cantidades[i]);
-                  celda.appendChild(textoCelda);
-                  hilera.appendChild(celda);
-                  var celda = document.createElement("td");
-                  var precio = precios[i]*1;
-                  var textoCelda = document.createTextNode("$ "+precio.toFixed(2));
-                  celda.appendChild(textoCelda);
-                  hilera.appendChild(celda);
-
-              // agrega la hilera al final de la tabla (al final del elemento tblbody)
-              tblBody.appendChild(hilera);
-            }
-
-            // appends <table> into <body>
-            body.appendChild(tblBody);
-            body.appendChild(thead);
-
-        }
-
-
-
-  })
-
-
-
-});
 $(".btnCerrarVista").on("click", function() {
 
         var nodos = document.getElementById('tablaDetalleProductos');
@@ -1102,10 +657,10 @@ $("#buscarTimeline").change(function() {
 /*=============================================
 HABILITAR PROSPECTO A AGENTE
 =============================================*/
-$(".tablaProspectos").on("click", ".btnHabilitarProspecto", function(){
+function habilitarProspecto(id,estado){
 
-  var idProspecto = $(this).attr("idProspecto");
-  var estadoProspecto= $(this).attr("estadoProspecto");
+  var idProspecto = id;
+  var estadoProspecto = estado;
 
   var datos = new FormData();
     datos.append("idProspectoHabilitado", idProspecto);
@@ -1140,8 +695,9 @@ $(".tablaProspectos").on("click", ".btnHabilitarProspecto", function(){
       $(this).attr('estadoProspecto',0);
 
     }
+    cargarProspectos(1);
 
-})
+}
 /********/
 function setValue(){
   var inicio = $("#inicial").val();
@@ -1200,9 +756,8 @@ function fechaActual(){
 /**
   * VER GRAFICO EN TABLA CARTERA
   */
- $(".tablaCartera").on("click", ".btnVerGraficoVentas", function(){
-
-  var idCartera = $(this).attr("idCartera");
+function verGraficoVentas(id){
+  var idCartera = id;
 
   $.ajax({
         type: "POST",
@@ -1335,5 +890,4 @@ function fechaActual(){
 
         }
   });
-
-});
+}

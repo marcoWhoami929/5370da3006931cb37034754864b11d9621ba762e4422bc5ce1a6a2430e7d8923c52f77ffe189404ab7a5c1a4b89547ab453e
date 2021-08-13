@@ -2,6 +2,7 @@
 
 class Conexion{
 
+	public $counter;
 	public static function conectar(){
 
 		$link = new PDO("mysql:host=localhost;dbname=crmapp","root",

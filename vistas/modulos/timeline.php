@@ -36,7 +36,7 @@
               <div>
                 <h4 class="card-title">TimeLine</h4>
                 <h5 class="card-subtitle">A continuación se detalle todos los seguimientos realizados a cada uno de los prospectos.</h5>
-                <select class="form-control" id="buscarTimeline">
+                <select class="js-example-basic-multiple" id="buscarTimeline">
                   <option value="">Elegir Prospecto</option>
                   <?php
                   error_reporting(E_ALL);
@@ -50,7 +50,8 @@
                  }
 
                  ?>
-               </select>
+                </select>
+               
                <a id="vinculoDescargarReporte"><button type="button" class="btn btn-success" style="display: none" id="btnDescargarReporteTimeLline">
                                         <i class="fas fa-file-excel fa-2x"></i></button></a>
              </div>
@@ -81,3 +82,8 @@
 </div>
 </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+</script>

@@ -30,6 +30,8 @@ error_reporting(0);
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
   <link rel="stylesheet" type="text/css" href="vistas/dist/css/generales.css">
   <link href="vistas/dist/css/bootstrap-tagsinput.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
  
   <!--=====================================
@@ -73,6 +75,7 @@ error_reporting(0);
      <script src="vistas/dist/js/bootstrap-tagsinput.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/df-number-format/2.1.6/jquery.number.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   
 
     
@@ -80,7 +83,7 @@ error_reporting(0);
 </head>
 
 <body>
-  <div id="main-wrapper">
+  <div id="main-wrapper" class="mini-sidebar">
  
 <?php
 
@@ -156,6 +159,7 @@ JS PERSONALIZADO
   <!-- /.control-sidebar -->
   <script src="vistas/dist/js/plantilla.js"></script>
   <script src="vistas/js/gestorCrm.js"></script>
+  <script src="vistas/js/gestorTablas.js"></script>
    <!-- FULL CALENDAR-->
   <script src="vistas/assets/libs/moment/min/moment.min.js"></script>
   <script src="vistas/assets/libs/fullcalendar/dist/fullcalendar.min.js"></script>

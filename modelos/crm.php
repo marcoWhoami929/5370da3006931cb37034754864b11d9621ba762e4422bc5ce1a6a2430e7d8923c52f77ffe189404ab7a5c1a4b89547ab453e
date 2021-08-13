@@ -20,23 +20,7 @@ class ModeloGeneral{
 		$stmt = null;
 
 	}
-	/*=============================================
-	MOSTRAR CARTERA
-	=============================================*/
 
-	static public function mdlMostrarCartera($tabla,$parametros){
-
-		$stmt = Conexion::conectar()->prepare("SELECT p.id,p.nombreCompleto,p.taller,p.estatus,p.clasificacion,p.oportunidad,p.cliente,av.nombre as agente,cf.clasificacion as nombreClasificacion FROM $tabla as p  INNER JOIN agentesventas AS av ON p.idAgente = av.id INNER JOIN clasificacion AS cf ON p.clasificacion = cf.id WHERE $parametros");
-
-		$stmt -> execute();
-
-		return $stmt -> fetchAll();
-
-		$stmt-> close();
-
-		$stmt = null;
-
-	}
 
 	/**
 	 * MOSTRAR OPORTUNIDADES
@@ -434,7 +418,7 @@ class ModeloGeneral{
 
 	}
 
-		/*
+	/*
 	MOSTRAR PROSPECTOS CON SEGUIMIENTOS
 	 */
 	static public function mdlMostrarProspectosConSeguimientos($tabla){
@@ -590,7 +574,23 @@ class ModeloGeneral{
 
 	}
 
+	/*
+	MOSTRAR PROSPECTOS CON SEGUIMIENTOS
+	 */
+	static public function mdlMostrarAccionesSeguimientos($tabla){
 
+		$stmt = Conexion::conectar()->prepare("SELECT id,accion FROM $tabla");
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt -> close();
+
+		$stmt = null;
+
+
+	}
 
 
 }

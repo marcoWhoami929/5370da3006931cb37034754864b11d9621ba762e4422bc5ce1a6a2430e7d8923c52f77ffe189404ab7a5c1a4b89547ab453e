@@ -356,3 +356,30 @@ Stack trace:
 [12-Jul-2021 15:07:13 America/Mexico_City] PHP Parse error:  syntax error, unexpected '*' in /home/sanfranc/public_html/crm/ajax/tablaProspectos.ajax.php on line 26
 [12-Jul-2021 15:07:34 America/Mexico_City] PHP Parse error:  syntax error, unexpected '*' in /home/sanfranc/public_html/crm/ajax/tablaProspectos.ajax.php on line 26
 [12-Jul-2021 15:07:44 America/Mexico_City] PHP Parse error:  syntax error, unexpected '*' in /home/sanfranc/public_html/crm/ajax/tablaProspectos.ajax.php on line 26
+[04-Aug-2021 14:07:10 America/Mexico_City] PHP Notice:  Undefined index: query in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 8
+[04-Aug-2021 14:07:10 America/Mexico_City] PHP Notice:  Undefined index: idAgente in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 9
+[04-Aug-2021 14:07:10 America/Mexico_City] PHP Notice:  Undefined index: clasificacion in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 10
+[04-Aug-2021 14:07:10 America/Mexico_City] PHP Notice:  Undefined index: fase in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 11
+[04-Aug-2021 14:07:10 America/Mexico_City] PHP Notice:  Undefined index: tipo in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 12
+[04-Aug-2021 14:07:10 America/Mexico_City] PHP Notice:  Undefined index: per_page in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 13
+[04-Aug-2021 14:07:10 America/Mexico_City] PHP Warning:  Division by zero in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 32
+[10-Aug-2021 11:19:01 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:19:01 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:19:10 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:19:10 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:19:57 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:19:57 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:20:18 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:20:18 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:20:27 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:20:27 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:21:10 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:21:10 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:21:19 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:21:19 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:28:46 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:28:46 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:28:51 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:28:51 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
+[10-Aug-2021 11:28:57 America/Mexico_City] PHP Notice:  Undefined index: fechaInicial in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 194
+[10-Aug-2021 11:28:57 America/Mexico_City] PHP Notice:  Undefined index: fechaFinal in /home/sanfranc/public_html/crmadmin/ajax/functions.php on line 195
